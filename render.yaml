@@ -11,8 +11,9 @@ services:
       pnpm install --frozen-lockfile &&
       pnpm --filter api exec prisma generate &&
       pnpm turbo run build --filter=api...
-    preDeployCommand: pnpm --filter api exec prisma migrate deploy
-    startCommand: pnpm --filter api start:prod
+    startCommand: >-
+      pnpm --filter api exec prisma migrate deploy &&
+      pnpm --filter api start:prod
     healthCheckPath: /api
     envVars:
       - key: NODE_VERSION
