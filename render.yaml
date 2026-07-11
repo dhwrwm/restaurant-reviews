@@ -7,7 +7,7 @@ services:
     branch: main
     autoDeploy: true
     buildCommand: >-
-      corepack enable &&
+      npm install -g pnpm@8.6.2 &&
       pnpm install --frozen-lockfile &&
       pnpm --filter api exec prisma generate &&
       pnpm turbo run build --filter=api...
