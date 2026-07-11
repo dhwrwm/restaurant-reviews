@@ -1,0 +1,39 @@
+# dependencies
+node_modules
+
+# this workspace uses pnpm exclusively; other lockfiles indicate an
+# accidental `npm install`/`yarn install` and should not be committed
+package-lock.json
+yarn.lock
+
+# build output
+.next
+dist
+out
+build
+
+# env files
+.env
+.env*.local
+
+# testing
+coverage
+
+# turborepo
+.turbo/
+
+# misc
+.DS_Store
+*.pem
+*.tsbuildinfo
+next-env.d.ts
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# vercel
+.vercel
+node_modules

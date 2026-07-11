@@ -1,0 +1,77 @@
+
+> web@0.1.0 lint /Users/bazum/Test-projects/Dhwrwm-basumatary/apps/web
+> eslint
+
+
+/Users/bazum/Test-projects/Dhwrwm-basumatary/apps/web/src/features/auth/components/login-from.tsx
+  33:26  warning  Compilation Skipped: Use of incompatible library
+
+This API returns functions which cannot be memoized without leading to stale UI. To prevent this, by default React Compiler will skip memoizing this component/hook. However, you may see issues if values from this API are passed to other components/hooks that are memoized.
+
+/Users/bazum/Test-projects/Dhwrwm-basumatary/apps/web/src/features/auth/components/login-from.tsx:33:26
+  31 |
+  32 |   useEffect(() => {
+> 33 |     const subscription = watch(() => setError(null));
+     |                          ^^^^^ React Hook Form's `useForm()` API returns a `watch()` function which cannot be memoized safely.
+  34 |     return () => subscription.unsubscribe();
+  35 |   }, [watch]);
+  36 |  react-hooks/incompatible-library
+
+/Users/bazum/Test-projects/Dhwrwm-basumatary/apps/web/src/features/auth/components/register-from.tsx
+  42:26  warning  Compilation Skipped: Use of incompatible library
+
+This API returns functions which cannot be memoized without leading to stale UI. To prevent this, by default React Compiler will skip memoizing this component/hook. However, you may see issues if values from this API are passed to other components/hooks that are memoized.
+
+/Users/bazum/Test-projects/Dhwrwm-basumatary/apps/web/src/features/auth/components/register-from.tsx:42:26
+  40 |
+  41 |   useEffect(() => {
+> 42 |     const subscription = watch(() => setError(null));
+     |                          ^^^^^ React Hook Form's `useForm()` API returns a `watch()` function which cannot be memoized safely.
+  43 |     return () => subscription.unsubscribe();
+  44 |   }, [watch]);
+  45 |  react-hooks/incompatible-library
+
+/Users/bazum/Test-projects/Dhwrwm-basumatary/apps/web/src/features/restaurants/components/create-restaurant-form.tsx
+  54:26  warning  Compilation Skipped: Use of incompatible library
+
+This API returns functions which cannot be memoized without leading to stale UI. To prevent this, by default React Compiler will skip memoizing this component/hook. However, you may see issues if values from this API are passed to other components/hooks that are memoized.
+
+/Users/bazum/Test-projects/Dhwrwm-basumatary/apps/web/src/features/restaurants/components/create-restaurant-form.tsx:54:26
+  52 |
+  53 |   useEffect(() => {
+> 54 |     const subscription = watch(() => setError(null));
+     |                          ^^^^^ React Hook Form's `useForm()` API returns a `watch()` function which cannot be memoized safely.
+  55 |     return () => subscription.unsubscribe();
+  56 |   }, [watch]);
+  57 |  react-hooks/incompatible-library
+
+/Users/bazum/Test-projects/Dhwrwm-basumatary/apps/web/src/features/restaurants/components/edit-restaurant-form.tsx
+  57:26  warning  Compilation Skipped: Use of incompatible library
+
+This API returns functions which cannot be memoized without leading to stale UI. To prevent this, by default React Compiler will skip memoizing this component/hook. However, you may see issues if values from this API are passed to other components/hooks that are memoized.
+
+/Users/bazum/Test-projects/Dhwrwm-basumatary/apps/web/src/features/restaurants/components/edit-restaurant-form.tsx:57:26
+  55 |
+  56 |   useEffect(() => {
+> 57 |     const subscription = watch(() => setError(null));
+     |                          ^^^^^ React Hook Form's `useForm()` API returns a `watch()` function which cannot be memoized safely.
+  58 |     return () => subscription.unsubscribe();
+  59 |   }, [watch]);
+  60 |  react-hooks/incompatible-library
+
+/Users/bazum/Test-projects/Dhwrwm-basumatary/apps/web/src/features/reviews/components/review-form.tsx
+  55:26  warning  Compilation Skipped: Use of incompatible library
+
+This API returns functions which cannot be memoized without leading to stale UI. To prevent this, by default React Compiler will skip memoizing this component/hook. However, you may see issues if values from this API are passed to other components/hooks that are memoized.
+
+/Users/bazum/Test-projects/Dhwrwm-basumatary/apps/web/src/features/reviews/components/review-form.tsx:55:26
+  53 |
+  54 |   useEffect(() => {
+> 55 |     const subscription = watch(() => setError(null));
+     |                          ^^^^^ React Hook Form's `useForm()` API returns a `watch()` function which cannot be memoized safely.
+  56 |     return () => subscription.unsubscribe();
+  57 |   }, [watch]);
+  58 |  react-hooks/incompatible-library
+
+✖ 5 problems (0 errors, 5 warnings)
+

@@ -1,0 +1,110 @@
+
+> web@0.1.0 test /Users/bazum/Test-projects/Dhwrwm-basumatary/apps/web
+> jest
+
+PASS src/features/restaurants/components/__tests__/star-rating-display.test.tsx
+PASS src/features/restaurants/components/__tests__/restaurant-card.test.tsx
+PASS src/features/restaurants/api/__tests__/get-restaurant.test.ts
+PASS src/features/reviews/api/__tests__/get-restaurant-reviews.test.ts
+PASS src/features/restaurants/api/__tests__/update-restaurant.test.ts
+PASS src/features/restaurants/api/__tests__/delete-restaurant.test.ts
+PASS src/app/__tests__/header.test.tsx (6.182 s)
+PASS src/features/restaurants/api/__tests__/get-my-restaurants.test.ts
+PASS src/features/reviews/components/__tests__/restaurant-reviews.test.tsx (6.268 s)
+PASS src/features/reviews/components/__tests__/reviews-list.test.tsx (6.464 s)
+PASS src/features/reviews/components/__tests__/review-form.test.tsx (6.753 s)
+PASS src/features/auth/api/__tests__/me.test.ts
+PASS src/features/restaurants/api/__tests__/get-restaurants.test.ts
+PASS src/features/restaurants/components/__tests__/delete-restaurant-button.test.tsx (7.076 s)
+PASS src/features/auth/components/__tests__/user-menu.test.tsx (7.047 s)
+PASS src/features/reviews/components/__tests__/review.test.tsx (7.45 s)
+PASS src/features/auth/api/__tests__/register.test.ts
+PASS src/features/restaurants/api/__tests__/create-restaurant.test.ts
+PASS src/features/auth/api/__tests__/logout.test.ts
+PASS src/features/reviews/api/__tests__/create-review.test.ts
+PASS src/features/reviews/api/__tests__/update-review.test.ts
+PASS src/features/reviews/api/__tests__/delete-review.test.ts
+PASS src/features/auth/api/__tests__/login.test.ts
+PASS src/features/restaurants/api/__tests__/get-cities.test.ts
+PASS src/features/restaurants/components/__tests__/edit-restaurant-form.test.tsx (8.426 s)
+PASS src/features/restaurants/components/__tests__/restaurant-sort-select.test.tsx (8.632 s)
+PASS src/features/reviews/components/__tests__/restaurant-reviews-skeleton.test.tsx
+PASS src/features/auth/components/__tests__/sign-out-button.test.tsx
+PASS src/features/reviews/components/__tests__/write-review.test.tsx
+PASS src/features/restaurants/components/__tests__/restaurant-filter-cities.test.tsx
+PASS src/features/restaurants/components/__tests__/my-restaurant-list-item.test.tsx
+PASS src/features/restaurants/components/__tests__/restaurant-filter-input.test.tsx (9.764 s)
+PASS src/features/restaurants/components/__tests__/restaurant-filters.test.tsx
+PASS src/features/restaurants/components/__tests__/star-rating.test.tsx
+PASS src/features/auth/components/__tests__/login-from.test.tsx (10.103 s)
+  ● Console
+
+    console.error
+      Error: Invalid credentials
+          at Object.<anonymous> (/Users/bazum/Test-projects/Dhwrwm-basumatary/apps/web/src/features/auth/components/__tests__/login-from.test.tsx:75:35)
+          at Promise.finally.completed (/Users/bazum/Test-projects/Dhwrwm-basumatary/node_modules/.pnpm/jest-circus@30.0.0/node_modules/jest-circus/build/jestAdapterInit.js:1559:28)
+          at new Promise (<anonymous>)
+          at callAsyncCircusFn (/Users/bazum/Test-projects/Dhwrwm-basumatary/node_modules/.pnpm/jest-circus@30.0.0/node_modules/jest-circus/build/jestAdapterInit.js:1499:10)
+          at _callCircusTest (/Users/bazum/Test-projects/Dhwrwm-basumatary/node_modules/.pnpm/jest-circus@30.0.0/node_modules/jest-circus/build/jestAdapterInit.js:1009:40)
+          at _runTest (/Users/bazum/Test-projects/Dhwrwm-basumatary/node_modules/.pnpm/jest-circus@30.0.0/node_modules/jest-circus/build/jestAdapterInit.js:949:3)
+          at _runTestsForDescribeBlock (/Users/bazum/Test-projects/Dhwrwm-basumatary/node_modules/.pnpm/jest-circus@30.0.0/node_modules/jest-circus/build/jestAdapterInit.js:839:13)
+          at _runTestsForDescribeBlock (/Users/bazum/Test-projects/Dhwrwm-basumatary/node_modules/.pnpm/jest-circus@30.0.0/node_modules/jest-circus/build/jestAdapterInit.js:829:11)
+          at run (/Users/bazum/Test-projects/Dhwrwm-basumatary/node_modules/.pnpm/jest-circus@30.0.0/node_modules/jest-circus/build/jestAdapterInit.js:757:3)
+          at runAndTransformResultsToJestFormat (/Users/bazum/Test-projects/Dhwrwm-basumatary/node_modules/.pnpm/jest-circus@30.0.0/node_modules/jest-circus/build/jestAdapterInit.js:1920:21)
+          at jestAdapter (/Users/bazum/Test-projects/Dhwrwm-basumatary/node_modules/.pnpm/jest-circus@30.0.0/node_modules/jest-circus/build/runner.js:101:19)
+          at runTestInternal (/Users/bazum/Test-projects/Dhwrwm-basumatary/node_modules/.pnpm/jest-runner@30.0.0/node_modules/jest-runner/build/testWorker.js:272:16)
+          at runTest (/Users/bazum/Test-projects/Dhwrwm-basumatary/node_modules/.pnpm/jest-runner@30.0.0/node_modules/jest-runner/build/testWorker.js:340:7)
+          at Object.worker (/Users/bazum/Test-projects/Dhwrwm-basumatary/node_modules/.pnpm/jest-runner@30.0.0/node_modules/jest-runner/build/testWorker.js:494:12)
+
+      45 |       router.refresh();
+      46 |     } catch (err) {
+    > 47 |       console.error(err);
+         |               ^
+      48 |       setError(err instanceof Error ? err.message : "Something went wrong");
+      49 |     } finally {
+      50 |       setIsSubmitting(false);
+
+      at error (src/features/auth/components/login-from.tsx:47:15)
+      at name (../../node_modules/.pnpm/react-hook-form@7.81.0_react@19.2.4/node_modules/react-hook-form/src/logic/createFormControl.ts:1609:30)
+
+PASS src/features/restaurants/components/__tests__/create-restaurant-form.test.tsx (11.181 s)
+PASS src/features/auth/components/__tests__/register-from.test.tsx (11.34 s)
+  ● Console
+
+    console.error
+      Error: Email already in use
+          at Object.<anonymous> (/Users/bazum/Test-projects/Dhwrwm-basumatary/apps/web/src/features/auth/components/__tests__/register-from.test.tsx:113:38)
+          at Promise.finally.completed (/Users/bazum/Test-projects/Dhwrwm-basumatary/node_modules/.pnpm/jest-circus@30.0.0/node_modules/jest-circus/build/jestAdapterInit.js:1559:28)
+          at new Promise (<anonymous>)
+          at callAsyncCircusFn (/Users/bazum/Test-projects/Dhwrwm-basumatary/node_modules/.pnpm/jest-circus@30.0.0/node_modules/jest-circus/build/jestAdapterInit.js:1499:10)
+          at _callCircusTest (/Users/bazum/Test-projects/Dhwrwm-basumatary/node_modules/.pnpm/jest-circus@30.0.0/node_modules/jest-circus/build/jestAdapterInit.js:1009:40)
+          at runNextTicks (node:internal/process/task_queues:65:5)
+          at listOnTimeout (node:internal/timers:567:9)
+          at processTimers (node:internal/timers:541:7)
+          at _runTest (/Users/bazum/Test-projects/Dhwrwm-basumatary/node_modules/.pnpm/jest-circus@30.0.0/node_modules/jest-circus/build/jestAdapterInit.js:949:3)
+          at _runTestsForDescribeBlock (/Users/bazum/Test-projects/Dhwrwm-basumatary/node_modules/.pnpm/jest-circus@30.0.0/node_modules/jest-circus/build/jestAdapterInit.js:839:13)
+          at _runTestsForDescribeBlock (/Users/bazum/Test-projects/Dhwrwm-basumatary/node_modules/.pnpm/jest-circus@30.0.0/node_modules/jest-circus/build/jestAdapterInit.js:829:11)
+          at run (/Users/bazum/Test-projects/Dhwrwm-basumatary/node_modules/.pnpm/jest-circus@30.0.0/node_modules/jest-circus/build/jestAdapterInit.js:757:3)
+          at runAndTransformResultsToJestFormat (/Users/bazum/Test-projects/Dhwrwm-basumatary/node_modules/.pnpm/jest-circus@30.0.0/node_modules/jest-circus/build/jestAdapterInit.js:1920:21)
+          at jestAdapter (/Users/bazum/Test-projects/Dhwrwm-basumatary/node_modules/.pnpm/jest-circus@30.0.0/node_modules/jest-circus/build/runner.js:101:19)
+          at runTestInternal (/Users/bazum/Test-projects/Dhwrwm-basumatary/node_modules/.pnpm/jest-runner@30.0.0/node_modules/jest-runner/build/testWorker.js:272:16)
+          at runTest (/Users/bazum/Test-projects/Dhwrwm-basumatary/node_modules/.pnpm/jest-runner@30.0.0/node_modules/jest-runner/build/testWorker.js:340:7)
+          at Object.worker (/Users/bazum/Test-projects/Dhwrwm-basumatary/node_modules/.pnpm/jest-runner@30.0.0/node_modules/jest-runner/build/testWorker.js:494:12)
+
+      59 |       router.refresh();
+      60 |     } catch (err) {
+    > 61 |       console.error(err);
+         |               ^
+      62 |       setError(err instanceof Error ? err.message : "Something went wrong");
+      63 |     } finally {
+      64 |       setIsLoading(false);
+
+      at error (src/features/auth/components/register-from.tsx:61:15)
+      at name (../../node_modules/.pnpm/react-hook-form@7.81.0_react@19.2.4/node_modules/react-hook-form/src/logic/createFormControl.ts:1609:30)
+
+
+Test Suites: 37 passed, 37 total
+Tests:       113 passed, 113 total
+Snapshots:   0 total
+Time:        18.951 s
+Ran all test suites.

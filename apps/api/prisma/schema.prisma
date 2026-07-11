@@ -1,0 +1,134 @@
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+// Shared enum-only client so apps/web and non-Prisma parts of apps/api can
+// import Cuisine/Role without pulling in the full Prisma runtime. See
+// packages/types, which only compiles enums.ts out of this output.
+generator sharedTypes {
+  provider     = "prisma-client"
+  output       = "../../../packages/types/src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  REVIEWER
+  OWNER
+}
+
+enum Cuisine {
+  ITALIAN
+  CHINESE
+  INDIAN
+  JAPANESE
+  KOREAN
+  THAI
+  VIETNAMESE
+  MEXICAN
+  AMERICAN
+  FRENCH
+  MEDITERRANEAN
+  SEAFOOD
+  VEGAN
+  OTHER
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String  
+  passwordHash String
+  role         Role
+
+  restaurants  Restaurant[]
+  reviews      Review[]
+  refreshTokens RefreshToken[]
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([email])
+}
+
+model RefreshToken {
+  id         String   @id @default(cuid())
+  jti        String   @unique
+  tokenHash  String
+
+  userId     String
+  user       User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  expiresAt  DateTime
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model Restaurant {
+  id              String   @id @default(cuid())
+
+  ownerId         String
+  owner           User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  slug            String   @unique
+
+  name            String
+  description     String?
+
+  previewImageUrl String?
+
+  address                   String
+  city                      String
+  state                     String?
+  country                   String
+
+  cuisine         Cuisine
+
+  averageRating   Decimal  @default(0.0) @db.Decimal(3,2)
+
+  reviewCount     Int      @default(0)
+
+  reviews         Review[]
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([ownerId])
+  @@index([slug])
+  @@index([name])
+  @@index([cuisine])
+  @@index([cuisine, averageRating])
+}
+
+
+model Review {
+  id            String   @id @default(cuid())
+
+  restaurantId  String
+  restaurant    Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+
+  reviewerId    String
+  reviewer      User @relation(fields: [reviewerId], references: [id], onDelete: Cascade)
+
+  rating        Int
+
+  comment       String
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([restaurantId, reviewerId])
+
+  @@index([restaurantId])
+  @@index([reviewerId])
+}
