@@ -10,7 +10,8 @@ services:
       npm install -g pnpm@8.6.2 &&
       pnpm install --frozen-lockfile &&
       pnpm --filter api exec prisma generate &&
-      pnpm turbo run build --filter=api...
+      pnpm --filter types build &&
+      pnpm --filter api build
     startCommand: >-
       pnpm --filter api exec prisma migrate deploy &&
       pnpm --filter api start:prod
