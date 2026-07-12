@@ -1,4 +1,4 @@
-export default {
+const meta = {
   index: {
     title: "Home",
     display: "hidden",
@@ -12,3 +12,5 @@ export default {
   deployment: "Deployment",
   adr: "Architecture Decisions (ADR)",
 };
+
+export default meta;
