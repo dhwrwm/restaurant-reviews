@@ -31,8 +31,12 @@ export default async function Home({ searchParams }: HomeProps) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-8">
-        {restaurants.map((restaurant) => (
-          <RestaurantCard key={restaurant.id} restaurant={restaurant} />
+        {restaurants.map((restaurant, index) => (
+          <RestaurantCard
+            key={restaurant.id}
+            restaurant={restaurant}
+            priority={index < 4}
+          />
         ))}
       </div>
 

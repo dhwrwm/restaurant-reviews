@@ -11,7 +11,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import type { CurrentUser } from "@/features/auth/api/me";
+import { getCurrentUser, type CurrentUser } from "@/features/auth/api/me";
 import { Role } from "types";
 
 const SignOutButton = dynamic(
@@ -31,6 +31,31 @@ const guestLinks = [
 
 interface HeaderProps {
   user: CurrentUser | null;
+}
+
+// Resolves the current user itself so RootLayout doesn't have to await it
+// before returning JSX — that would block the static shell (and the page's
+// own data fetch below it) behind an auth round trip on every request.
+// Rendered inside a <Suspense> boundary in layout.tsx.
+export async function HeaderWithUser() {
+  const user = await getCurrentUser();
+  return <Header user={user} />;
+}
+
+// Matches HeaderWithUser's markup dimensions so swapping between the two
+// doesn't shift the layout.
+export function HeaderSkeleton() {
+  return (
+    <header className="sticky top-0 z-10 bg-white border-b border-gray-200 shadow-sm">
+      <div className="h-16 flex items-center justify-between container">
+        <div className="leading-loose">
+          <Link href="/" className="font-bold text-lg md:text-2xl">
+            Restaurant Reviews
+          </Link>
+        </div>
+      </div>
+    </header>
+  );
 }
 
 export default function Header({ user }: HeaderProps) {

@@ -3,7 +3,13 @@ import Link from "next/link";
 import { Restaurant } from "../types";
 import StarRatingDisplay from "./star-rating-display";
 
-export function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
+export function RestaurantCard({
+  restaurant,
+  priority = false,
+}: {
+  restaurant: Restaurant;
+  priority?: boolean;
+}) {
   return (
     <div className="bg-base-100 shadow-xl rounded-lg overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all duration-500">
       <div className="relative w-full aspect-video">
@@ -12,7 +18,9 @@ export function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
           alt={restaurant.name}
           fill
           className="object-cover"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 33vw, 25vw"
+          loading={priority ? "eager" : undefined}
+          fetchPriority={priority ? "high" : undefined}
         />
       </div>
       <div className="p-2">

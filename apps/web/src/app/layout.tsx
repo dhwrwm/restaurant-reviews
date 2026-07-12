@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import "./globals.css";
-import Header from "./header";
+import { HeaderWithUser, HeaderSkeleton } from "./header";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
-import { getCurrentUser } from "@/features/auth/api/me";
 import { Toaster } from "@/components/ui/sonner";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 
@@ -32,17 +32,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user = await getCurrentUser();
-
   return (
     <html lang="en" className={cn("h-full", "font-sans", geist.variable)}>
       <body className="min-h-full flex flex-col">
-        <Header user={user} />
+        <Suspense fallback={<HeaderSkeleton />}>
+          <HeaderWithUser />
+        </Suspense>
         <main className="flex-1 container">{children}</main>
 
         <footer className="bg-gray-800 h-20 mt-10">

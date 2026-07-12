@@ -75,7 +75,7 @@ export default async function RestaurantPage({ params }: PageProps) {
             src={restaurant.previewImageUrl ?? "/restaurant1.jpg"}
             alt={restaurant.name}
             fill
-            priority
+            preload
             className="rounded-lg shadow-lg object-cover"
             sizes="(max-width: 1200px) 100vw, 50vw"
           />
