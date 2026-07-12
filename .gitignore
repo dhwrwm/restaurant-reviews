@@ -12,14 +12,6 @@ dist
 out
 build
 
-# Render packages/deploys its build artifact based on this file, so the
-# actual apps/api and packages/types build outputs must stay un-ignored
-# even though they're still never committed to git.
-!apps/api/dist/
-!apps/api/dist/**
-!packages/types/dist/
-!packages/types/dist/**
-
 # env files
 .env
 .env*.local
