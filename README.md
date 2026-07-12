@@ -61,3 +61,10 @@ pnpm db:studio   # open Prisma Studio
 ```
 
 Each app can also be run individually with `pnpm --filter api <script>` / `pnpm --filter web <script>`.
+
+## Deployment
+
+- **API** → [Render](https://render.com), deployed from [`render.yaml`](./render.yaml) (Blueprint/IaC). Push to `main` and Render auto-builds and deploys.
+- **Web** → [Vercel](https://vercel.com), project root set to `apps/web`; build/install commands are pinned in [`apps/web/vercel.json`](./apps/web/vercel.json) since the app depends on `packages/types`, which in turn depends on the Prisma schema in `apps/api`. Push to `main` and Vercel auto-builds and deploys.
+
+Both platforms deploy straight from GitHub — no separate CI pipeline. See [ARCHITECTURE.md](./ARCHITECTURE.md#deployment) for the full build pipeline and required environment variables.
