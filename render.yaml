@@ -11,8 +11,10 @@ services:
       pnpm install --frozen-lockfile &&
       pnpm --filter api exec prisma generate &&
       pnpm --filter types build &&
-      pnpm --filter api build
+      pnpm --filter api build &&
+      echo "--- apps/api/dist after build ---" && ls -la apps/api/dist
     startCommand: >-
+      echo "--- apps/api/dist at deploy start ---" && ls -la apps/api/dist &&
       pnpm --filter api exec prisma migrate deploy &&
       pnpm --filter api start:prod
     healthCheckPath: /api
