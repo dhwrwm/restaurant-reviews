@@ -6,6 +6,14 @@ services:
     region: oregon
     branch: main
     autoDeploy: true
+    buildFilter:
+      paths:
+        - apps/api/**
+        - packages/types/**
+        - pnpm-lock.yaml
+        - package.json
+        - pnpm-workspace.yaml
+        - render.yaml
     buildCommand: >-
       npm install -g pnpm@8.6.2 &&
       pnpm install --frozen-lockfile &&
