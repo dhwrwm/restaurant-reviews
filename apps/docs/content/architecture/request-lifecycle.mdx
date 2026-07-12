@@ -1,0 +1,108 @@
+---
+title: Request Lifecycle
+description: Concrete walkthroughs of how real requests move through the current system.
+---
+
+# Request Lifecycle
+
+<Callout type="info">**Status:** ✅ Implemented — these flows match the current codebase.</Callout>
+
+[Current Architecture](/architecture/current) gives the summarized version of
+this diagram. This page walks through four concrete requests end to end.
+
+## Browsing the restaurant listing
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Web as Next.js (Server Component)
+    participant API as NestJS
+    participant DB as PostgreSQL
+
+    User->>Web: GET /
+    Web->>API: GET /api/restaurants?city=&cuisine=&minRating=&page=
+    API->>DB: findMany() with filters, offset pagination
+    DB-->>API: Restaurant rows (incl. denormalized averageRating)
+    API-->>Web: JSON page of restaurants
+    Web-->>User: Rendered listing (Server Component, no client fetch)
+```
+
+Filters are read from the URL query string, which is the source of truth
+while navigating; they're also mirrored to `localStorage` so they persist
+across visits with no query parameters. See
+[Features: Search](/features/search) and [API: Filtering](/api/filtering).
+
+## Opening a restaurant page
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Web as Next.js
+    participant API as NestJS
+    participant DB as PostgreSQL
+
+    User->>Web: GET /restaurant/:slug
+    Web->>API: GET /api/restaurants/:slug
+    API->>DB: findUnique({ slug })
+    DB-->>API: Restaurant
+    Web->>API: GET /api/restaurants/:slug/reviews?cursor=
+    API->>DB: findMany() cursor pagination
+    DB-->>API: Review page
+    API-->>Web: Restaurant + first review page
+    Web-->>User: Rendered detail page
+```
+
+## Creating a review
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Web as Next.js (Client Component)
+    participant API as NestJS
+    participant Guard as JwtAuthGuard + RolesGuard
+    participant DB as PostgreSQL
+
+    User->>Web: Submit review form
+    Web->>API: POST /api/restaurants/:slug/reviews (cookies)
+    API->>Guard: Validate JWT, require REVIEWER role
+    Guard-->>API: Authorized
+    API->>API: Validate DTO (rating, comment)
+    API->>DB: Check for existing review (restaurantId, reviewerId)
+    DB-->>API: None found
+    API->>DB: Create review; recompute restaurant averageRating/reviewCount
+    DB-->>API: Updated rows
+    API-->>Web: 201 Created
+    Web-->>User: Optimistic UI update
+```
+
+A second review from the same reviewer for the same restaurant is rejected
+by the `@@unique([restaurantId, reviewerId])` constraint — see
+[Features: Reviews](/features/reviews).
+
+## Login and token refresh
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Web as Next.js
+    participant API as NestJS
+    participant DB as PostgreSQL
+
+    User->>Web: Submit login form
+    Web->>API: POST /api/auth/login
+    API->>DB: Find user, verify Argon2 hash
+    DB-->>API: User
+    API->>DB: Create RefreshToken row (hashed)
+    API-->>Web: Set-Cookie: access + refresh (HTTP-only)
+    Web-->>User: Redirect, authenticated
+
+    Note over Web,API: Later — access token expired
+    Web->>API: POST /api/auth/refresh (refresh cookie)
+    API->>DB: Verify hashed refresh token, not expired
+    API->>DB: Create new RefreshToken row, delete old row (same transaction)
+    API-->>Web: New access + refresh cookies
+```
+
+Creating the new session before deleting the old one means a crash mid-
+rotation leaves the user with a still-valid session rather than zero valid
+sessions. See [Features: Authentication](/features/authentication).

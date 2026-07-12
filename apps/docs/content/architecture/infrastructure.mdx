@@ -1,0 +1,17 @@
+---
+title: Infrastructure (Architectural Role)
+description: How the two apps get deployed — see the Infrastructure section for detail.
+---
+
+# Infrastructure — Architectural Role
+
+<Callout type="info">**Status:** ✅ Implemented</Callout>
+
+`apps/api` and `apps/web` are deployed independently, each auto-deploying
+from `main` via its platform's native GitHub integration (Render and Vercel
+respectively) — there is no separate CI pipeline that runs the deploys.
+
+This page only covers *how deployment fits the architecture*. For hosting
+details, the build-order dependency on `packages/types`, environment
+variables per service, and cost, see the full
+[Infrastructure](/infrastructure) section.

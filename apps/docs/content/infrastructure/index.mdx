@@ -1,0 +1,27 @@
+---
+title: Infrastructure Overview
+description: How and where the platform is deployed today.
+---
+
+# Infrastructure Overview
+
+<Callout type="info">**Status:** ✅ Implemented (deployment) / 📋 Planned (CI, containers) — see below.</Callout>
+
+`apps/api` and `apps/web` are deployed independently, each auto-deploying
+from `main` via its platform's **native GitHub integration** — push to
+`main` and the platform builds and deploys. There is no separate CI
+pipeline running today; see [GitHub Actions](/infrastructure/github-actions)
+for what that gap means and what's planned.
+
+| App | Platform | Config |
+| --- | --- | --- |
+| `apps/api` | [Render](https://render.com) (free tier) | `render.yaml` (Blueprint/IaC) |
+| `apps/web` | [Vercel](https://vercel.com) | `apps/web/vercel.json` |
+| `apps/docs` (this site) | [Vercel](https://vercel.com) | `apps/docs/vercel.json` |
+| Database | [Neon](https://neon.tech) Postgres | `DATABASE_URL` on the API service only |
+
+See [Hosting](/infrastructure/hosting) for why each platform was chosen,
+[Deployment](/infrastructure/deployment) for the build pipeline and its
+gotchas, [Environment Strategy](/infrastructure/environment-strategy) for
+every variable per service, and [Cost Strategy](/infrastructure/cost-strategy)
+for what this actually costs today (nothing).

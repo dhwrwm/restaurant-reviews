@@ -1,0 +1,50 @@
+---
+title: Image Uploads
+description: A URL field today; real file upload/storage is planned.
+---
+
+# Image Uploads
+
+<Callout type="warning">**Status:** 🚧 In Progress — `previewImageUrl` is a plain string field; there is no upload pipeline or object storage integration.</Callout>
+
+## Overview
+
+Restaurants have a `previewImageUrl` field. Owners paste a URL to an
+already-hosted image; the platform never receives, stores, or serves image
+bytes itself.
+
+## Purpose
+
+Implementing real file uploads (storage, validation, resizing, CDN
+delivery) was scoped out to keep the project focused on the core
+CRUD/auth/review functionality first. A URL field gets the same visual
+result (a restaurant preview image) with none of that infrastructure.
+
+## What exists today
+
+- `Restaurant.previewImageUrl: String?` — optional, validated as a URL at
+  the DTO level, nothing else.
+- The frontend's `next.config.ts` restricts remote image loading to
+  `https` hosts, closing off common SSRF targets (e.g. cloud metadata
+  endpoints) that are almost always served over plain `http`.
+
+## Planned shape
+
+- Direct upload to [Cloudinary](https://cloudinary.com) (generous free
+  tier, per the project's [infrastructure philosophy](/introduction/tech-stack#infrastructure-philosophy))
+  from the owner's restaurant form, storing the returned URL in the same
+  `previewImageUrl` field — no schema change needed, just a real upload step
+  in front of it.
+- Image processing (resize/optimize) as a candidate Go worker — see
+  [Phase 3](/roadmap/phase-3-redis-go-services).
+
+## Trade-offs
+
+- Owners can currently link to any `https` image, including ones they don't
+  control or that could disappear — accepted for now given there's no
+  storage pipeline yet.
+
+## References
+
+- `apps/api/prisma/schema.prisma` (`Restaurant.previewImageUrl`)
+- `apps/web/next.config.ts` (remote image host restriction)

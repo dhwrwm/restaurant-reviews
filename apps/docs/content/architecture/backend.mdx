@@ -1,0 +1,53 @@
+---
+title: Backend Architecture
+description: How apps/api is structured today.
+---
+
+# Backend Architecture
+
+<Callout type="info">**Status:** ✅ Implemented</Callout>
+
+```text
+apps/api/src/
+├── auth/        # controller, service, guards, strategies, DTOs
+├── restaurants/ # controller, service, DTOs
+├── reviews/     # controller, service, DTOs
+├── users/       # service (no dedicated controller — users are managed via auth)
+├── health/      # /api/health
+└── prisma/      # PrismaService, module
+```
+
+Organized by feature, not by technical layer. Each feature module owns its
+controller (REST endpoints), service (business rules), and DTOs (request
+validation via `class-validator`); guards are shared across modules from
+`auth/guards`.
+
+## Guards and ownership
+
+- `JwtAuthGuard` — validates the access token, populates `req.user`.
+- `RolesGuard` + `@Roles()` decorator — restricts an endpoint to `OWNER` or
+  `REVIEWER`.
+- **Resource ownership** (e.g. "does this user own this restaurant?") is
+  checked inside the service layer, not in a guard — ownership depends on
+  the specific resource being requested, which a guard doesn't have access
+  to before the route handler runs.
+
+## Validation
+
+A single global `ValidationPipe` (`main.ts`) enforces `whitelist`,
+`forbidNonWhitelisted`, and `transform` on every request — unknown fields on
+a request body are rejected outright rather than silently dropped or
+accepted. See [API: Error Handling](/api/error-handling).
+
+## Cross-cutting concerns
+
+`helmet()`, `cookie-parser`, a global `/api` prefix, and CORS restricted to a
+single configured origin (`WEB_URL`) are all set up once in `main.ts` rather
+than per module. See [Environment Strategy](/infrastructure/environment-strategy).
+
+## Testing
+
+API tests (Jest) cover services, controllers, and guards against a mocked
+Prisma client — no test hits a real database. A separate `test:e2e` smoke
+test boots the actual NestJS application to confirm it starts and serves
+requests. See [Running the Project](/getting-started/running-the-project).

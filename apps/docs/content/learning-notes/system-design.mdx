@@ -1,0 +1,18 @@
+---
+title: "Learning Notes: System Design"
+description: General system-design lessons from building this project.
+---
+
+# Learning Notes: System Design
+
+- The single most load-bearing decision so far has been *not* splitting
+  into services before there was a concrete reason to — see
+  [Architecture: Why Not Microservices from Day One](/architecture#why-not-microservices-from-day-one).
+  It's easy to underestimate how much of "microservices architecture" is
+  actually just distributed-systems tax (network calls, serialization,
+  partial failure) paid upfront for benefits (independent scaling,
+  independent deploys) that don't apply yet.
+- Denormalization ([Database: Performance](/database/performance)) is a good
+  example of "add complexity only where it pays for itself immediately" —
+  it wasn't adopted everywhere, only on the one column (`averageRating`)
+  that's read on every single listing request.

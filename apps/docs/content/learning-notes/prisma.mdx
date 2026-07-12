@@ -1,0 +1,16 @@
+---
+title: "Learning Notes: Prisma"
+description: Notes from using Prisma as the schema source of truth.
+---
+
+# Learning Notes: Prisma
+
+- Declaring a second `generator` block pointed at
+  `packages/types/src/generated/prisma` turned out to be a clean way to
+  share just the enums with the frontend, without either duplicating them
+  by hand or bundling the full Prisma runtime into `apps/web`. Full writeup:
+  [Database: Prisma Schema](/database/prisma-schema).
+- `prisma migrate deploy` being a safe no-op when there's nothing pending is
+  what makes running it at the front of Render's `startCommand` (instead of
+  a dedicated pre-deploy step, unavailable on the free tier) actually safe —
+  see [Database: Migrations](/database/migrations).

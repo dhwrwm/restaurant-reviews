@@ -1,0 +1,54 @@
+---
+title: Tech Stack
+description: What's actually running today, versus what's planned for later phases.
+---
+
+# Tech Stack
+
+## Implemented today
+
+| Layer | Technology |
+| --- | --- |
+| Frontend | Next.js (App Router), React, TypeScript, Tailwind CSS |
+| Backend | NestJS, Prisma ORM |
+| Database | PostgreSQL (hosted on [Neon](https://neon.tech)) |
+| Auth | JWT (access + refresh), Argon2 password hashing |
+| Monorepo | Turborepo, pnpm workspaces |
+| Hosting | Vercel (web + docs), Render (API) |
+| Docs | Next.js + Nextra |
+
+This list is intentionally short — it's everything that appears in a
+dependency file or a deploy config today. See
+[Repository Structure](/introduction/repository-structure) for where each
+piece lives in the monorepo.
+
+## Planned
+
+Introduced only when a concrete feature needs them — see the reasoning for
+each on its [ADR](/adr) page and its place in the [Roadmap](/roadmap):
+
+| Technology | Purpose | Roadmap phase |
+| --- | --- | --- |
+| Redis (Upstash) | API caching, background jobs, queues | [Phase 3](/roadmap/phase-3-redis-go-services) |
+| Go | Search, analytics, image processing, workers | [Phase 3](/roadmap/phase-3-redis-go-services) |
+| PostGIS | Geospatial queries (nearby search, radius, bounding box) | [Phase 4](/roadmap/phase-4-postgis-geospatial-search) |
+| pgvector | Semantic / hybrid search, recommendations | [Phase 5](/roadmap/phase-5-ai-semantic-search) |
+| AI (LLM-based) | Review summaries, moderation, AI-assisted search | [Phase 5](/roadmap/phase-5-ai-semantic-search) |
+| OpenTelemetry, Prometheus/Grafana or equivalent | Metrics, tracing, monitoring | [Phase 6](/roadmap/phase-6-observability) |
+| Docker | Local dev parity, containerized deploys | [Getting Started](/getting-started/docker), [Infrastructure](/infrastructure/docker) |
+| GitHub Actions | CI (tests/lint/typecheck before deploy) | [Infrastructure](/infrastructure/github-actions) |
+
+## Infrastructure philosophy
+
+Technology choices, current and future, are made to keep the project
+reproducible on free tiers, open-source where practical, and easy to swap out:
+
+- Prefer generous free tiers (Vercel, Render, Neon, Upstash) over paid
+  defaults.
+- Prefer open-source, Docker-compatible technology over managed-only
+  services, so any piece can be self-hosted later without a rewrite.
+- Avoid vendor lock-in — no component is chosen such that leaving the vendor
+  means rearchitecting.
+
+Paid services (e.g. Google Places instead of OpenStreetMap + Leaflet) are
+only ever documented as optional alternatives, never as the default.

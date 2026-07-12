@@ -1,0 +1,29 @@
+---
+title: Swagger
+description: Interactive API documentation — not set up yet.
+---
+
+# Swagger
+
+<Callout type="warning">**Status:** 📋 Planned — `@nestjs/swagger` is not a dependency of `apps/api` today; there is no generated OpenAPI spec or `/docs` route on the API.</Callout>
+
+## Purpose
+
+The endpoint contract is currently documented by hand on this site
+([API Overview](/api), [Authentication](/api/authentication),
+[Pagination](/api/pagination), [Filtering](/api/filtering)). That's
+maintainable at the current endpoint count, but a generated,
+always-in-sync OpenAPI spec (and a `/docs` Swagger UI route) would remove
+the risk of hand-written docs drifting from the actual DTOs.
+
+## Planned shape
+
+- Add `@nestjs/swagger`, decorate existing DTOs (`class-validator` decorators
+  already provide most of the metadata Swagger needs) and controllers.
+- Expose Swagger UI at `/api/docs` in non-production environments.
+- Once in place, this page's role flips: it becomes a pointer to the live
+  Swagger UI rather than a statement that it doesn't exist.
+
+## References
+
+- [API Overview](/api)

@@ -1,0 +1,90 @@
+---
+title: Restaurants
+description: Owner-managed restaurant listings with filterable, paginated browsing.
+---
+
+# Restaurants
+
+<Callout type="info">**Status:** ✅ Implemented</Callout>
+
+## Overview
+
+Restaurant owners create and manage their own listings; anyone can browse
+and filter the public listing or view a single restaurant by slug.
+
+## Purpose
+
+Restaurants are the core entity everything else (reviews, search, favorites)
+attaches to — modeling ownership and denormalized rating data correctly here
+keeps every downstream feature simple.
+
+## Architecture
+
+Listing reads never join against `Review` at request time — `averageRating`
+and `reviewCount` are denormalized columns on `Restaurant`, updated whenever
+a review is created/updated/deleted. See
+[Database: Performance](/database/performance).
+
+## Implementation
+
+### Database
+
+`Restaurant` model — `slug` (unique), `name`, `cuisine` (enum), `address`/
+`city`/`state`/`country`, `previewImageUrl` (string, see
+[Image Uploads](/features/image-uploads)), `averageRating`, `reviewCount`,
+`ownerId`. Indexed on `ownerId`, `slug`, `name`, `cuisine`, and
+`(cuisine, averageRating)`. Full detail: [ER Diagram](/database/er-diagram).
+
+### API
+
+- `GET /restaurants` — public, filterable, offset-paginated listing.
+- `GET /restaurants/cities` — distinct city list, for filter UI.
+- `GET /restaurants/mine` — owner's own listings (`OWNER` role required).
+- `GET /restaurants/:slug` — public detail lookup.
+- `POST /restaurants`, `PATCH /restaurants/:id`, `DELETE /restaurants/:id` —
+  `OWNER` role + ownership check.
+
+Full contract: [API: Overview](/api).
+
+### Frontend
+
+Listing and detail pages render as Server Components (see
+[Architecture: Frontend](/architecture/frontend)); the create/edit form and
+filter controls are Client Components under `features/restaurants/`.
+
+### Backend
+
+`RestaurantsController` / `RestaurantsService` in `apps/api/src/restaurants/`.
+
+### Security
+
+Only the owning user can update or delete a restaurant — enforced in
+`RestaurantsService`, not inferred from the request body.
+
+### Performance
+
+Offset pagination (see [API: Pagination](/api/pagination)) plus the
+`(cuisine, averageRating)` composite index keep the common
+"filter by cuisine, sort by rating" query index-backed rather than a full
+table scan.
+
+## Trade-offs
+
+- Denormalized `averageRating`/`reviewCount` must be kept in sync on every
+  review write — more write-path complexity in exchange for O(1) reads on
+  the listing page.
+- Addresses are entered as free text, not geocoded — there's no
+  latitude/longitude on the model today (removed in an earlier migration).
+  See [Phase 4 — PostGIS & Geospatial Search](/roadmap/phase-4-postgis-geospatial-search).
+
+## Future Improvements
+
+- Geospatial fields + radius/bounding-box queries — see
+  [Phase 4](/roadmap/phase-4-postgis-geospatial-search).
+- A dedicated search service for full-text/faceted queries — see
+  [Features: Search](/features/search).
+
+## References
+
+- `apps/api/src/restaurants/`, `apps/api/prisma/schema.prisma`
+- [Database](/database), [API](/api)

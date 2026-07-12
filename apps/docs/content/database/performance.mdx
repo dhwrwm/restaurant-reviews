@@ -1,0 +1,40 @@
+---
+title: Performance
+description: Denormalization and pagination choices that shape read performance.
+---
+
+# Performance
+
+<Callout type="info">**Status:** ✅ Implemented</Callout>
+
+## Denormalized ratings
+
+`Restaurant.averageRating` and `Restaurant.reviewCount` are stored columns,
+recomputed whenever a review is created, updated, or deleted — not computed
+by aggregating `Review` rows on every listing request.
+
+**Trade-off:** every review write does slightly more work (recompute two
+columns on the parent restaurant), in exchange for the restaurant listing —
+the platform's highest-traffic read — never running an aggregate query. This
+is the same "optimize the read that happens most often" reasoning behind the
+`(cuisine, averageRating)` composite index in
+[Indexing](/database/indexing).
+
+## Pagination strategy differs by resource
+
+- **Restaurants** use **offset pagination** — the dataset is moderate-sized,
+  users expect traditional page navigation, and filters combine naturally
+  with `LIMIT`/`OFFSET`.
+- **Reviews** use **cursor pagination** — review lists can grow unbounded
+  under a popular restaurant, the UX is "Load More" rather than numbered
+  pages, and cursor pagination keeps performance stable on deep pages
+  instead of degrading as `OFFSET` grows.
+
+Full reasoning and request shape: [API: Pagination](/api/pagination).
+
+## What isn't optimized yet
+
+There's no caching layer (Redis or otherwise) in front of any query today —
+every request hits Postgres directly. This is intentional: caching is
+deferred until a specific endpoint demonstrably needs it, per
+[Phase 3](/roadmap/phase-3-redis-go-services).

@@ -1,0 +1,52 @@
+---
+title: Frontend Architecture
+description: How apps/web is structured today.
+---
+
+# Frontend Architecture
+
+<Callout type="info">**Status:** ✅ Implemented</Callout>
+
+```text
+apps/web/src/
+├── app/            # route definitions, Server Components, layouts
+├── features/       # auth/ restaurants/ reviews/ — each with api/, components/, schemas/
+├── components/     # reusable UI (components/ui = design-system primitives)
+├── hooks/
+├── lib/            # API client, utilities
+├── providers/
+├── services/
+└── types/
+```
+
+## Server vs. Client Components
+
+Next.js App Router, Server Components by default. Restaurant listing and
+detail pages render as Server Components — they call the API directly on the
+server and return HTML, with no client-side data-fetching library involved.
+Interactive elements (forms, dialogs, pagination controls, filters) are
+explicit Client Components.
+
+This split is chosen for faster initial render, better SEO on
+content-driven pages, and less client-side JavaScript — at the cost of every
+interactive element needing an explicit `"use client"` boundary instead of a
+single client-side data layer handling everything.
+
+## Feature folders
+
+Each entry under `features/` (`auth`, `restaurants`, `reviews`) owns its own:
+
+- `api/` — functions that call the NestJS API for that feature and parse the
+  response (these are what's unit-tested with a mocked `fetch` — see
+  [Running the Project](/getting-started/running-the-project)).
+- `components/` — feature-specific UI.
+- `schemas/` — Zod schemas for form validation, sharing shape with the
+  backend DTOs by convention (not by generated types — see
+  [Repository Structure](/introduction/repository-structure) for what *is*
+  code-shared via `packages/types`).
+
+## Error handling
+
+Next.js error boundaries (`error.tsx`, `global-error.tsx`, `not-found.tsx`)
+provide recovery for unexpected failures and missing routes, rather than
+every page handling failure ad hoc.

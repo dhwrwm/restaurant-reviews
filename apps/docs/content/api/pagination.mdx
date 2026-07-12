@@ -1,0 +1,40 @@
+---
+title: Pagination
+description: Offset pagination for restaurants, cursor pagination for reviews.
+---
+
+# Pagination
+
+<Callout type="info">**Status:** ✅ Implemented</Callout>
+
+Two different strategies are used, deliberately, for two different access
+patterns. See [Database: Performance](/database/performance) for the
+reasoning behind each.
+
+## Restaurants — offset pagination
+
+```text
+GET /restaurants?page=2&city=Austin&cuisine=ITALIAN&minRating=4
+```
+
+Chosen because the dataset is moderate-sized, users expect traditional page
+navigation (page numbers, jump-to-page), pages are easily bookmarked, and it
+composes naturally with the filter parameters above.
+
+## Reviews — cursor pagination
+
+```text
+GET /restaurants/:slug/reviews?cursor=<reviewId>&limit=10
+```
+
+Chosen because a restaurant's review list can grow unbounded, the UX is
+"Load More" rather than numbered pages, ordering stays stable even as new
+reviews are inserted, and it avoids the performance cliff `OFFSET` hits on
+deep pages.
+
+## Choosing between them for a new endpoint
+
+Offset if: dataset is bounded, users need page numbers/jump-to-page, and
+filters change frequently. Cursor if: the list can grow unbounded, the UX is
+incremental loading, and stable ordering under concurrent writes matters
+more than random page access.

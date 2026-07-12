@@ -1,0 +1,16 @@
+---
+title: "Learning Notes: Performance"
+description: Performance-related lessons from building this project.
+---
+
+# Learning Notes: Performance
+
+- Offset vs. cursor pagination isn't a "pick the modern one" choice — they
+  solve different access patterns, and using cursor pagination everywhere
+  (including the bounded, page-numbered restaurant listing) would have
+  removed a UX capability (jump to page N) for no real performance benefit
+  at this dataset size. See [API: Pagination](/api/pagination).
+- Reached for a database index or a denormalized column before reaching for
+  a cache — see [Database: Performance](/database/performance) — since both
+  are "free" in the sense of not adding new infrastructure to operate,
+  unlike Redis (see [ADR-0008](/adr/0008-redis)).

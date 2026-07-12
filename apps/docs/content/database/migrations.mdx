@@ -1,0 +1,41 @@
+---
+title: Migrations
+description: How the schema evolves, and how migrations run in each environment.
+---
+
+# Migrations
+
+<Callout type="info">**Status:** ✅ Implemented</Callout>
+
+## History
+
+| Migration | Change |
+| --- | --- |
+| `20260706042027_init` | Initial schema |
+| `20260709045832_updated_restuarant_model` | Restaurant model updates |
+| `20260709203113_add_user_name` | Added `User.name` |
+| `20260709222043_remove_lat_long_restaurant` | Removed latitude/longitude from `Restaurant` (see [Features: Restaurants](/features/restaurants#trade-offs) — geospatial fields are deferred to [Phase 4](/roadmap/phase-4-postgis-geospatial-search) rather than kept unused) |
+| `20260710102248_add_refresh_token` | Added `RefreshToken` model — see [Features: Authentication](/features/authentication) |
+
+## Local development
+
+```bash
+pnpm db:migrate   # prisma migrate dev — creates + applies a migration
+pnpm db:generate  # prisma generate — regenerate the Prisma client only
+```
+
+## Production (Render free tier)
+
+Render's Pre-Deploy Command feature — the natural place to run
+`prisma migrate deploy` — isn't available on the free plan. Migrations
+instead run at the front of the API's `startCommand`, immediately before
+`node dist/main`:
+
+```bash
+pnpm --filter api exec prisma migrate deploy && pnpm --filter api start:prod
+```
+
+`prisma migrate deploy` is a no-op when nothing is pending, so this is safe
+on every boot — including the free tier's spin-down/wake cycle, which needs
+to pick up any new migration anyway. See
+[Infrastructure: Deployment](/infrastructure/deployment).

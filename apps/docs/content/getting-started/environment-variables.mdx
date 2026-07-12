@@ -1,0 +1,29 @@
+---
+title: Environment Variables
+description: Every environment variable the current implementation reads, per app.
+---
+
+# Environment Variables
+
+<Callout type="info">**Status:** ✅ Implemented — matches `apps/api/.env.example` and `apps/web/.env.example`.</Callout>
+
+## `apps/api/.env`
+
+| Variable | Example | Notes |
+| --- | --- | --- |
+| `DATABASE_URL` | `postgresql://user:password@localhost:5432/restaurant_reviews` | Postgres connection string |
+| `JWT_SECRET` | `change-me` | Signs access tokens |
+| `JWT_EXPIRES_IN` | `15m` | Access token lifetime |
+| `JWT_REFRESH_SECRET` | `change-me-too` | Signs refresh tokens |
+| `JWT_REFRESH_EXPIRES_IN` | `7d` | Refresh token lifetime |
+
+## `apps/web/.env.local`
+
+| Variable | Example | Notes |
+| --- | --- | --- |
+| `NEXT_PUBLIC_API_BASE_URL` | `http://localhost:3001/api` | Base URL the frontend calls |
+| `NEXT_PUBLIC_SITE_URL` | `http://localhost:3000` | Used for absolute URLs (e.g. metadata) |
+
+Production values (Render/Vercel) are covered in
+[Environment Strategy](/infrastructure/environment-strategy), including the
+`WEB_URL` CORS variable that only exists on the deployed API, not locally.

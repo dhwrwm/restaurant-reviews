@@ -1,0 +1,28 @@
+---
+title: "Phase 4 — PostGIS & Geospatial Search"
+description: Location-based restaurant discovery.
+---
+
+# Phase 4 — PostGIS & Geospatial Search
+
+<Callout type="warning">**Status:** 📋 Planned</Callout>
+
+`Restaurant` had latitude/longitude fields removed in migration
+`20260709222043_remove_lat_long_restaurant` — they were dropped rather than
+left unused until there's a concrete geospatial feature to attach them to.
+This phase is where they'd be reintroduced, as PostGIS geometry rather than
+plain floats.
+
+## Planned use cases
+
+- Map-based restaurant discovery.
+- "Near me" / nearby search.
+- Radius queries.
+- Distance-based sorting.
+- Bounding-box queries (e.g. "restaurants visible on this map viewport").
+- Geospatial indexing (`GIST`) for the queries above.
+
+See [ADR-0009](/adr/0009-postgis) for why PostGIS specifically (vs. a
+separate geospatial service), and
+[Features: Search](/features/search) for how this composes with text
+search.

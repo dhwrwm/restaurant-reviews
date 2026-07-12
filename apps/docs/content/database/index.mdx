@@ -1,0 +1,29 @@
+---
+title: Database Overview
+description: PostgreSQL via Prisma — schema, indexing, migrations.
+---
+
+# Database Overview
+
+<Callout type="info">**Status:** ✅ Implemented</Callout>
+
+A single PostgreSQL database (hosted on [Neon](https://neon.tech) in
+production), owned exclusively by `apps/api`. Prisma
+(`apps/api/prisma/schema.prisma`) is the schema source of truth — it drives
+both the API's Prisma client and the enum-only client consumed by
+`packages/types`.
+
+- [ER Diagram](/database/er-diagram) — the four models and their relations.
+- [Prisma Schema](/database/prisma-schema) — the schema itself, and the
+  dual-generator setup.
+- [Indexing](/database/indexing) — what's indexed and why.
+- [Performance](/database/performance) — denormalization and pagination
+  choices that affect read performance.
+- [Migrations](/database/migrations) — migration history and how they run
+  in each environment.
+
+For where PostgreSQL sits in the overall system, see
+[Architecture: Database](/architecture/database). Geospatial extensions
+(PostGIS, pgvector) are not part of the schema today — see
+[Phase 4](/roadmap/phase-4-postgis-geospatial-search) and
+[Phase 5](/roadmap/phase-5-ai-semantic-search).

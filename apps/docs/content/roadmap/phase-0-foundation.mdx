@@ -1,0 +1,20 @@
+---
+title: "Phase 0 — Foundation"
+description: Monorepo, tooling, and app scaffolding.
+---
+
+# Phase 0 — Foundation
+
+<Callout type="success">**Status:** ✅ Complete</Callout>
+
+- Turborepo + pnpm workspace set up — see [ADR-0001](/adr/0001-turborepo),
+  [ADR-0002](/adr/0002-pnpm).
+- `apps/web`, `apps/api`, `apps/docs` scaffolded.
+- `packages/types` — shared `Cuisine`/`Role` enums generated from Prisma —
+  see [Repository Structure](/introduction/repository-structure).
+- Husky + lint-staged for pre-commit lint/format.
+- Initial Render + Vercel deploy configs — see [Infrastructure](/infrastructure).
+
+This phase established structure (module boundaries, shared tooling) before
+any product feature existed — see
+[Project Philosophy](/architecture#project-philosophy).

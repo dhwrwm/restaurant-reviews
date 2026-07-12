@@ -1,0 +1,38 @@
+---
+title: API Overview
+description: REST conventions used across apps/api.
+---
+
+# API Overview
+
+<Callout type="info">**Status:** ✅ Implemented</Callout>
+
+The backend exposes a REST API under a global `/api` prefix (e.g.
+`https://<service>.onrender.com/api`). There is no GraphQL or RPC layer.
+
+## Global conventions
+
+- **Validation** — every request body is validated with a global
+  `ValidationPipe` (`whitelist`, `forbidNonWhitelisted`, `transform`):
+  unknown fields are rejected, not silently dropped.
+- **Auth** — JWT access tokens as HTTP-only cookies, checked by
+  `JwtAuthGuard`; see [API: Authentication](/api/authentication).
+- **CORS** — restricted to a single configured origin (`WEB_URL`), with
+  credentials enabled.
+- **Security headers** — `helmet()` on every response.
+- **Rate limiting** — a global limit, plus a stricter limit on
+  `/auth/register` and `/auth/login`.
+
+## Resources
+
+| Resource | Endpoints |
+| --- | --- |
+| Auth | `/auth/register`, `/auth/login`, `/auth/me`, `/auth/refresh`, `/auth/logout`, `/auth/logout-all` |
+| Restaurants | `/restaurants`, `/restaurants/cities`, `/restaurants/mine`, `/restaurants/:slug`, `POST/PATCH/DELETE /restaurants` |
+| Reviews | `/restaurants/:slug/reviews`, `/reviews/:id` |
+| Health | `/health` — see [Observability: Health Checks](/observability/health-checks) |
+
+Detail pages: [Authentication](/api/authentication),
+[Error Handling](/api/error-handling), [Pagination](/api/pagination),
+[Filtering](/api/filtering). Interactive API docs
+([Swagger](/api/swagger)) are planned, not available yet.

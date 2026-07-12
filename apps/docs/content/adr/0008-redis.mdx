@@ -1,0 +1,63 @@
+---
+title: "ADR-0008: Redis for Caching and Jobs"
+description: Introducing a cache and job queue.
+---
+
+# ADR-0008: Redis for Caching and Jobs
+
+<Callout type="warning">**Status:** Proposed — no cache or job queue exists in this repository yet. This ADR records the reasoning in advance of [Phase 3](/roadmap/phase-3-redis-go-services).</Callout>
+
+## Context
+
+Today every request hits PostgreSQL directly (see
+[Database: Performance](/database/performance)) and all work happens
+synchronously inside the request/response cycle. Neither has caused a
+problem yet, but planned features like
+[Notifications](/features/notifications) need async work that shouldn't
+block the triggering request.
+
+## Problem
+
+The project needs (a) a cache for reads that become expensive at scale, and
+(b) a job queue for work that shouldn't run inline — without adding an
+always-on service that breaks the free-tier hosting model.
+
+## Decision
+
+Use Upstash Redis (serverless, generous free tier) for both caching and as
+the backing store for a job queue (e.g. BullMQ) once a concrete need for
+either exists.
+
+## Alternatives Considered
+
+- **In-memory caching inside the NestJS process** — zero infra cost, but
+  doesn't survive a restart and doesn't work once there's more than one API
+  instance.
+- **A managed message queue (e.g. SQS)** — solves jobs but not caching, and
+  isn't part of the project's current AWS-free stack.
+- **Self-hosted Redis (Docker)** — viable for local dev (see
+  [Getting Started: Docker](/getting-started/docker)), but production would
+  need a host to run on, reintroducing the "always-on service" cost Upstash
+  avoids via its serverless pricing.
+
+## Trade-offs
+
+- A cache introduces invalidation as a new class of bug — only worth taking
+  on once a specific read is demonstrably expensive.
+- Serverless Redis (Upstash) bills per-request rather than per-hour, which
+  is cost-effective at low volume but would need re-evaluating at high
+  request volume.
+
+## Consequences
+
+- Caching and job queueing are introduced together (same phase) since both
+  are backed by the same Redis instance — see
+  [Roadmap: Phase 3](/roadmap/phase-3-redis-go-services).
+- [Notifications](/features/notifications) and async image processing (see
+  [Image Uploads](/features/image-uploads)) become buildable once this
+  lands.
+
+## References
+
+- [Target Architecture: Background Jobs](/architecture/target#background-jobs)
+- [Introduction: Tech Stack](/introduction/tech-stack)

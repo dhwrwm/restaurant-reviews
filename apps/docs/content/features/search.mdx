@@ -1,0 +1,56 @@
+---
+title: Search
+description: Query-param filtering today; full-text/dedicated search planned.
+---
+
+# Search
+
+<Callout type="warning">**Status:** 🚧 In Progress — filtering exists; there is no full-text search or dedicated search service.</Callout>
+
+## Overview
+
+"Search" today means filtering the restaurant listing by structured fields.
+There's no free-text query, ranking, or faceting.
+
+## Purpose
+
+Structured filtering is sufficient at the current dataset size and was the
+cheapest way to let users narrow results. A dedicated search engine becomes
+worth the operational cost once query patterns need relevance ranking or
+text matching that Postgres handles poorly at scale.
+
+## What exists today
+
+- Filter by `city`, `cuisine`, `minRating`.
+- Sort by rating.
+- Implemented as plain Prisma `WHERE` clauses in
+  `RestaurantsService.findAll`, backed by the indexes described in
+  [Database: Indexing](/database/indexing).
+- URL query params are the source of truth; also mirrored to `localStorage`
+  so filters persist without query params. See
+  [Request Lifecycle](/architecture/request-lifecycle#browsing-the-restaurant-listing).
+
+Full contract: [API: Filtering](/api/filtering).
+
+## Planned shape
+
+- Full-text search across name/description — likely via Postgres
+  `tsvector`/`tsquery` before reaching for an external engine.
+- A dedicated Go search service once query patterns need ranking/faceting a
+  relational `WHERE` clause handles poorly — see
+  [Phase 3 — Redis & Go Services](/roadmap/phase-3-redis-go-services) and
+  [Target Architecture](/architecture/target#search).
+- Geospatial "near me" search — see
+  [Phase 4 — PostGIS & Geospatial Search](/roadmap/phase-4-postgis-geospatial-search).
+- Natural-language / semantic search — see [Features: AI](/features/ai) and
+  [Phase 5](/roadmap/phase-5-ai-semantic-search).
+
+## Trade-offs
+
+- No relevance ranking today — results are filtered, not ranked; sort is
+  only by rating.
+
+## References
+
+- `apps/api/src/restaurants/restaurants.service.ts`
+- [Target Architecture: Search](/architecture/target#search)

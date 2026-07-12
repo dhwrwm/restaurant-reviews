@@ -1,0 +1,73 @@
+---
+title: Prisma Schema
+description: The schema itself, and the dual-generator setup shared with packages/types.
+---
+
+# Prisma Schema
+
+<Callout type="info">**Status:** ✅ Implemented</Callout>
+
+`apps/api/prisma/schema.prisma` defines two generators from the same schema:
+
+```prisma
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+// Shared enum-only client so apps/web can import Cuisine/Role
+// without pulling in the full Prisma runtime.
+generator sharedTypes {
+  provider = "prisma-client"
+  output   = "../../../packages/types/src/generated/prisma"
+}
+```
+
+`packages/types` only compiles the `enums.ts` output of the second
+generator — `Cuisine` and `Role` — into its published package. This is the
+only channel through which the frontend "knows" about the data model: a
+change to either enum in `schema.prisma` propagates to the database,
+API validation, and frontend forms/filters simultaneously, with no manual
+sync step. See [Architecture: Current](/architecture/current#monorepo-structure).
+
+## Enums
+
+```prisma
+enum Role {
+  REVIEWER
+  OWNER
+}
+
+enum Cuisine {
+  ITALIAN
+  CHINESE
+  INDIAN
+  JAPANESE
+  KOREAN
+  THAI
+  VIETNAMESE
+  MEXICAN
+  AMERICAN
+  FRENCH
+  MEDITERRANEAN
+  SEAFOOD
+  VEGAN
+  OTHER
+}
+```
+
+## Models
+
+See [ER Diagram](/database/er-diagram) for the relationships; full field
+list lives in `apps/api/prisma/schema.prisma`. Notable field-level choices:
+
+- `Restaurant.averageRating` is `Decimal @db.Decimal(3,2)` — fixed-precision,
+  avoiding floating-point rounding drift on a value that's recomputed
+  repeatedly.
+- All primary keys are `cuid()` strings, not sequential integers — avoids
+  leaking row counts/creation order through IDs exposed in URLs (e.g.
+  `/restaurant/:slug` uses the slug, not the id, but ids are still returned
+  in API responses).
+- Every foreign key uses `onDelete: Cascade` — deleting a `User` removes
+  their restaurants, reviews, and refresh tokens; deleting a `Restaurant`
+  removes its reviews. There's no soft-delete/archival model today.

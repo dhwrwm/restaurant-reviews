@@ -1,0 +1,38 @@
+---
+title: Analytics
+description: Aggregate reporting for owners/platform — not built yet.
+---
+
+# Analytics
+
+<Callout type="warning">**Status:** 📋 Planned — no aggregation endpoints or reporting UI exist today.</Callout>
+
+## Overview
+
+Would surface trends — e.g. a restaurant's rating over time, review volume,
+or cross-restaurant comparisons for owners.
+
+## Purpose
+
+Aggregate reporting is read-heavy, tolerant of slightly stale data, and
+better served by a data model optimized for aggregation than the normalized
+transactional schema the API serves today. It's deliberately deferred until
+that distinction actually matters (i.e. until the transactional queries and
+reporting queries start competing for the same database).
+
+## Planned shape
+
+- A separate Go analytics service, decoupled from the request path of the
+  core API — see
+  [Phase 3 — Redis & Go Services](/roadmap/phase-3-redis-go-services) and
+  [Target Architecture: Analytics](/architecture/target#analytics).
+- Likely fed by periodic aggregation jobs rather than querying the live
+  transactional tables directly.
+
+## Trade-offs
+
+Not yet applicable — nothing is built.
+
+## References
+
+- [Target Architecture: Analytics](/architecture/target#analytics)

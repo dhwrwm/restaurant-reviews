@@ -1,0 +1,55 @@
+---
+title: "ADR-0004: NestJS"
+description: The backend framework.
+---
+
+# ADR-0004: NestJS
+
+<Callout type="success">**Status:** Accepted</Callout>
+
+## Context
+
+The backend needs authentication, authorization, validation, and a growing
+number of feature modules, with a structure that can accommodate the
+[planned service extraction](/architecture/target) later without a rewrite.
+
+## Problem
+
+A minimal framework (plain Express) gives no opinion on module boundaries,
+dependency injection, or request validation — all of that would be
+hand-rolled and inconsistent across features as the codebase grows.
+
+## Decision
+
+Use NestJS, organized by feature module (`auth`, `restaurants`, `reviews`,
+`users`), each with its own controller/service/DTOs. See
+[Architecture: Backend](/architecture/backend).
+
+## Alternatives Considered
+
+- **Express (unopinionated)** — maximum flexibility, but every convention
+  (module structure, DI, validation pipeline) would need to be established
+  and maintained by hand.
+- **Fastify directly** — faster raw throughput, but the same lack of
+  structure as Express; NestJS can in fact run on a Fastify adapter later if
+  throughput becomes a concern, without changing the module architecture.
+
+## Trade-offs
+
+- More framework surface (decorators, DI, modules) to learn than a minimal
+  Express app.
+- Some NestJS conventions (guards, pipes) impose structure even on the
+  simplest endpoints.
+
+## Consequences
+
+- Feature modules are the unit of extraction if a service boundary is ever
+  warranted — see
+  [Architecture: Modular Monolith Approach](/architecture#modular-monolith-approach).
+- Guards (`JwtAuthGuard`, `RolesGuard`) and global pipes (`ValidationPipe`)
+  are enforced consistently across every controller.
+
+## References
+
+- [Architecture: Backend](/architecture/backend)
+- `apps/api/src/`

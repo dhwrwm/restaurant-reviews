@@ -4,24 +4,39 @@ title: Restaurant Review Platform
 
 # Restaurant Review Platform
 
-Engineering documentation for the **Restaurant Review Platform** — a
-full-stack application for discovering, rating, and reviewing restaurants.
+Engineering handbook for the **Restaurant Review Platform** — a full-stack
+application where reviewers discover, rate, and review restaurants, and
+restaurant owners manage their own listings.
 
-## Technology Stack
+This is documentation written the way an engineering team would write it for
+itself: what's actually built, what's in progress, what's planned, and why.
+Every page carries a status —**✅ Implemented**, **🚧 In Progress**, or
+**📋 Planned** — so nothing here is mistaken for a feature that exists when it
+doesn't.
 
-- **Web** — Next.js, React, Tailwind CSS
-- **API** — NestJS, Prisma
-- **Database** — PostgreSQL
-- **Monorepo** — Turborepo, pnpm workspaces
-- **Docs** — Next.js, Nextra
+## Start here
 
-## Documentation
+- New to the project? Start with [Introduction](/introduction) and
+  [Local Development](/getting-started).
+- Want the system design? Go to [Architecture](/architecture).
+- Looking for a specific feature's implementation? See [Features](/features).
+- Need the schema or an endpoint contract? See [Database](/database) or
+  [API](/api).
+- Curious where this is headed? See [Roadmap](/roadmap) and
+  [Architecture Decision Records](/adr).
 
-- [Introduction](/introduction)
-- [Architecture](/architecture)
-- [Roadmap](/roadmap)
-- [Features](/features)
-- [API](/api)
-- [Database](/database)
-- [Deployment](/deployment)
-- [Architecture Decisions (ADR)](/adr)
+## Section map
+
+| Section | What it covers |
+| --- | --- |
+| [Introduction](/introduction) | Project goals, tech stack, repo layout |
+| [Getting Started](/getting-started) | Local setup, environment variables, running the project |
+| [Architecture](/architecture) | Current vs. target system design, request lifecycle |
+| [Features](/features) | Per-feature specs — status, design, trade-offs |
+| [Database](/database) | Schema, indexing, migrations |
+| [API](/api) | REST conventions — auth, errors, pagination, filtering |
+| [Infrastructure](/infrastructure) | Hosting, deployment, CI/CD, cost |
+| [Roadmap](/roadmap) | How the architecture evolves, phase by phase |
+| [ADR](/adr) | Why each major technology was chosen |
+| [Learning Notes](/learning-notes) | Working notes from building each part of the stack |
+| [Observability](/observability) | Metrics, logging, tracing — mostly future |

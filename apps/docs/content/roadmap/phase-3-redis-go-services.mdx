@@ -1,0 +1,29 @@
+---
+title: "Phase 3 — Redis & Go Services"
+description: Caching, background jobs, and the first extracted services.
+---
+
+# Phase 3 — Redis & Go Services
+
+<Callout type="warning">**Status:** 📋 Planned</Callout>
+
+## Redis (Upstash)
+
+- API caching for expensive/hot reads.
+- Background job queue (e.g. BullMQ) — enables
+  [Notifications](/features/notifications) and async image processing
+  without blocking the request that triggered them.
+
+## Go services
+
+- **Search** — once query patterns need ranking/faceting beyond SQL
+  `WHERE` clauses — see [Features: Search](/features/search).
+- **Analytics** — aggregate reporting, decoupled from the transactional
+  request path — see [Features: Analytics](/features/analytics).
+- **Image processing** — resizing/optimizing uploaded images, paired with
+  [Image Uploads](/features/image-uploads).
+- **Workers** — general async job execution behind the Redis queue above.
+
+See [Target Architecture](/architecture/target) and
+[ADR-0007](/adr/0007-go), [ADR-0008](/adr/0008-redis) for the full reasoning
+and NestJS-stays-the-gateway constraint.

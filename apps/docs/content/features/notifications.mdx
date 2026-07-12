@@ -1,0 +1,38 @@
+---
+title: Notifications
+description: Notifying owners/reviewers of activity — not built yet.
+---
+
+# Notifications
+
+<Callout type="warning">**Status:** 📋 Planned — no delivery mechanism, model, or UI exists today.</Callout>
+
+## Overview
+
+Would notify restaurant owners of new reviews, and potentially reviewers of
+replies or moderation outcomes.
+
+## Purpose
+
+Right now an owner only learns about a new review by checking their
+dashboard. Notifications close that loop, but the delivery mechanism
+(email vs. in-app vs. push) and volume are still open questions, and the
+feature is speculative until those are settled.
+
+## Planned shape
+
+- Sending a notification shouldn't block the request that triggered it
+  (e.g. review creation) — this is the concrete use case that motivates a
+  background job queue. See
+  [Phase 3 — Redis & Go Services](/roadmap/phase-3-redis-go-services) and
+  [Target Architecture: Background Jobs](/architecture/target#background-jobs).
+- Likely starts as email-only (lowest infrastructure cost), with in-app
+  notifications as a later addition once there's a job queue to build on.
+
+## Trade-offs
+
+Not yet applicable — nothing is built.
+
+## References
+
+- [Target Architecture: Background Jobs](/architecture/target#background-jobs)

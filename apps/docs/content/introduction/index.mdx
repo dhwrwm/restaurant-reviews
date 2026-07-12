@@ -1,0 +1,34 @@
+---
+title: Introduction
+description: What this project is and how the documentation is organized.
+---
+
+# Introduction
+
+The Restaurant Review Platform is a full-stack application: reviewers browse,
+filter, and review restaurants; restaurant owners manage their own listings.
+It's built and documented like a small production SaaS product rather than a
+tutorial project — modular monolith today, with a documented path toward
+additional services as real requirements justify them.
+
+This documentation is a **living handbook**, not a spec written in advance.
+It describes what is implemented today, separately from what's planned and
+from long-term direction. See [Project Goals](/introduction/project-goals) for
+what the project is optimizing for, [Tech Stack](/introduction/tech-stack) for
+what's actually running in each part of the system, and
+[Repository Structure](/introduction/repository-structure) for how the code
+is laid out.
+
+## How to read this handbook
+
+Every feature, roadmap, and ADR page carries one of three statuses:
+
+- **✅ Implemented** — exists in the codebase today, described from what the
+  code actually does.
+- **🚧 In Progress** — partially built; the page says exactly what part
+  exists and what's still missing.
+- **📋 Planned** — not built yet. These pages describe intent and rationale,
+  not internals that don't exist.
+
+Diagrams are [Mermaid](https://mermaid.js.org/), rendered directly from the
+page source — no static images to fall out of sync with the system.

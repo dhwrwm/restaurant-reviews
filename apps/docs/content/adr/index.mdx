@@ -1,7 +1,48 @@
-# Architecture Decisions (ADR)
+---
+title: Architecture Decision Records
+description: Why each major technology choice was made, and what it cost.
+---
 
-Placeholder content. This section will contain Architecture Decision
-Records documenting significant technical decisions made for the platform.
+# Architecture Decision Records
 
-New ADRs can be added as additional `.mdx` files in `content/adr/`, for
-example `content/adr/0001-example-decision.mdx`.
+An ADR records a significant technical decision at the time it was made —
+including the alternatives that were rejected and why — so a later reader
+doesn't have to reverse-engineer the reasoning from the code.
+
+## Status
+
+- **Accepted** — implemented; ADR-0001 through ADR-0006.
+- **Proposed** — a direction the [Roadmap](/roadmap) commits to, not yet
+  implemented; ADR-0007 through ADR-0009. These describe *why*, in advance,
+  so the decision doesn't get re-litigated from scratch when the phase
+  starts — but nothing on a Proposed ADR exists in the codebase yet.
+
+## Template
+
+Every ADR follows the same structure:
+
+1. **Context** — the situation that required a decision.
+2. **Problem** — the specific question being answered.
+3. **Decision** — what was chosen.
+4. **Alternatives Considered** — what else was evaluated, and why it lost.
+5. **Trade-offs** — what was given up.
+6. **Consequences** — what this decision constrains or enables going
+   forward.
+7. **References** — related pages, files, or external docs.
+
+## Index
+
+| ADR | Decision | Status |
+| --- | --- | --- |
+| [0001](/adr/0001-turborepo) | Turborepo for monorepo task orchestration | Accepted |
+| [0002](/adr/0002-pnpm) | pnpm for package management | Accepted |
+| [0003](/adr/0003-nextjs) | Next.js (App Router) for the frontend | Accepted |
+| [0004](/adr/0004-nestjs) | NestJS for the backend | Accepted |
+| [0005](/adr/0005-prisma) | Prisma as the ORM | Accepted |
+| [0006](/adr/0006-postgresql) | PostgreSQL as the database | Accepted |
+| [0007](/adr/0007-go) | Go for extracted services | Proposed |
+| [0008](/adr/0008-redis) | Redis for caching and jobs | Proposed |
+| [0009](/adr/0009-postgis) | PostGIS for geospatial queries | Proposed |
+
+New ADRs are added as `content/adr/NNNN-slug.mdx`, following the template
+above, and registered in `content/adr/_meta.ts`.

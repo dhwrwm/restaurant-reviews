@@ -1,0 +1,62 @@
+---
+title: "ADR-0009: PostGIS for Geospatial Queries"
+description: Adding location-based queries to the existing database.
+---
+
+# ADR-0009: PostGIS for Geospatial Queries
+
+<Callout type="warning">**Status:** Proposed — no geospatial fields, extension, or queries exist in this repository today (`Restaurant` had lat/long fields removed in an earlier migration). This ADR records the reasoning in advance of [Phase 4](/roadmap/phase-4-postgis-geospatial-search).</Callout>
+
+## Context
+
+`Restaurant` previously had plain `latitude`/`longitude` float columns,
+removed in migration `20260709222043_remove_lat_long_restaurant` because
+nothing queried them yet — see [Database: Migrations](/database/migrations).
+Planned features (nearby search, map-based discovery — see
+[Features: Search](/features/search)) need real geospatial queries: radius,
+bounding box, distance sorting.
+
+## Problem
+
+Plain lat/long floats support storing a location but not querying it
+efficiently — "restaurants within 5km" as a manual Haversine calculation
+over every row doesn't scale and can't use a spatial index.
+
+## Decision
+
+Add the PostGIS extension to the existing PostgreSQL database and store
+restaurant locations as a `geography(Point)` column, indexed with `GIST`.
+
+## Alternatives Considered
+
+- **Plain lat/long + application-level distance math** — this is what was
+  removed; it doesn't index and doesn't support bounding-box/radius queries
+  natively.
+- **A separate geospatial/search service (e.g. Elasticsearch with geo
+  queries)** — capable, but introduces a second datastore to keep in sync
+  with Postgres, for a capability Postgres already supports natively via an
+  extension.
+
+## Trade-offs
+
+- Requires the hosting Postgres provider to support the PostGIS extension —
+  needs confirming against [Neon](https://neon.tech)'s extension support
+  before this phase starts.
+- Geospatial queries (radius, bounding box) are a new query pattern the team
+  needs to learn, distinct from the standard relational queries used
+  elsewhere in the schema.
+
+## Consequences
+
+- Geospatial capability extends the existing database rather than adding a
+  new service — consistent with
+  [ADR-0006: PostgreSQL](/adr/0006-postgresql)'s reasoning for choosing
+  Postgres in the first place.
+- Unlocks map-based discovery, nearby search, radius queries, distance
+  sorting, and bounding-box queries — see
+  [Roadmap: Phase 4](/roadmap/phase-4-postgis-geospatial-search).
+
+## References
+
+- [Roadmap: Phase 4](/roadmap/phase-4-postgis-geospatial-search)
+- [Database: Migrations](/database/migrations)

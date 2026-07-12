@@ -1,0 +1,28 @@
+---
+title: "Phase 5 — AI & Semantic Search"
+description: pgvector-backed semantic search and AI-assisted features.
+---
+
+# Phase 5 — AI & Semantic Search
+
+<Callout type="warning">**Status:** 📋 Planned</Callout>
+
+## pgvector
+
+- Semantic search over restaurant/review content.
+- Restaurant recommendations based on embedding similarity.
+- Natural-language search queries.
+- Hybrid keyword + vector search, combining this with the full-text search
+  work from [Phase 3](/roadmap/phase-3-redis-go-services)/[Features: Search](/features/search).
+
+## AI
+
+- Review summaries, restaurant summaries — see [Features: AI](/features/ai).
+- Intelligent recommendations.
+- Moderation.
+- AI-assisted search.
+
+Both are grouped in this phase because they share a dependency: useful
+semantic search and recommendations need embeddings stored somewhere
+queryable, which is what pgvector adds to the existing Postgres database
+rather than requiring a separate vector database service.

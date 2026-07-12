@@ -1,0 +1,27 @@
+---
+title: Indexing
+description: Every index in the current schema and the query it exists for.
+---
+
+# Indexing
+
+<Callout type="info">**Status:** ✅ Implemented</Callout>
+
+| Model | Index | Serves |
+| --- | --- | --- |
+| `User` | `@@index([email])` | Login lookup by email |
+| `RefreshToken` | `@@index([userId])` | Listing/revoking a user's sessions |
+| `RefreshToken` | `@@index([expiresAt])` | Cleaning up expired tokens |
+| `Restaurant` | `@@unique(slug)` | Detail page lookup, `GET /restaurants/:slug` |
+| `Restaurant` | `@@index([ownerId])` | `GET /restaurants/mine` |
+| `Restaurant` | `@@index([name])` | Name-based lookups |
+| `Restaurant` | `@@index([cuisine])` | Cuisine filter |
+| `Restaurant` | `@@index([cuisine, averageRating])` | Composite: filter by cuisine **and** sort by rating in one index-backed query — see [Performance](/database/performance) |
+| `Review` | `@@unique([restaurantId, reviewerId])` | Enforces one review per reviewer per restaurant — see [Features: Reviews](/features/reviews) |
+| `Review` | `@@index([restaurantId])` | Listing a restaurant's reviews |
+| `Review` | `@@index([reviewerId])` | Listing a user's reviews |
+
+No full-text index (`GIN`/`tsvector`) exists yet — see
+[Features: Search](/features/search). No geospatial index (`GIST` via
+PostGIS) exists yet — see
+[Phase 4](/roadmap/phase-4-postgis-geospatial-search).

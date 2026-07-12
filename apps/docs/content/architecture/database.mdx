@@ -1,0 +1,17 @@
+---
+title: Database (Architectural Role)
+description: PostgreSQL's place in the system — see the Database section for schema detail.
+---
+
+# Database — Architectural Role
+
+<Callout type="info">**Status:** ✅ Implemented</Callout>
+
+A single PostgreSQL instance is the system of record, owned exclusively by
+`apps/api` — `apps/web` never connects to it directly, everything goes
+through the REST API. Prisma is the schema source of truth and the only
+thing that talks to Postgres.
+
+This page only covers *where the database sits in the architecture*. For the
+schema itself, indexing, migrations, and performance decisions (like
+denormalized rating columns), see the full [Database](/database) section.

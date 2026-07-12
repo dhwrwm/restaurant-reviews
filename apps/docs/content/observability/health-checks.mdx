@@ -1,0 +1,36 @@
+---
+title: Health Checks
+description: The one piece of observability that already exists.
+---
+
+# Health Checks
+
+<Callout type="warning">**Status:** 🚧 In Progress — a basic health endpoint exists; there's no broader health/readiness framework around it.</Callout>
+
+## What exists today
+
+`GET /api/health` runs `SELECT 1` against the database and returns:
+
+```json
+{ "status": "ok", "database": "up", "timestamp": "..." }
+```
+
+or, on failure, a `503` with `{ "status": "error", "database": "down", ... }`.
+
+This is Render's configured `healthCheckPath` (`render.yaml`) — Render polls
+it to decide whether the API instance is healthy.
+
+## What's planned
+
+- Separate liveness vs. readiness semantics (today there's one combined
+  check).
+- Health checks for any future dependency (Redis — see
+  [Phase 3](/roadmap/phase-3-redis-go-services) — would need its own check
+  once introduced).
+- Wiring this endpoint into real uptime monitoring — see
+  [Monitoring](/observability/monitoring).
+
+## References
+
+- `apps/api/src/health/health.controller.ts`
+- `render.yaml` (`healthCheckPath`)

@@ -1,0 +1,48 @@
+---
+title: "ADR-0002: pnpm"
+description: Package management for the monorepo.
+---
+
+# ADR-0002: pnpm
+
+<Callout type="success">**Status:** Accepted</Callout>
+
+## Context
+
+A monorepo with cross-package dependencies (`apps/web`/`apps/api` depend on
+`packages/types`) needs a package manager with real workspace support.
+
+## Problem
+
+npm and yarn classic workspaces both hoist dependencies into a single
+`node_modules`, which lets a package accidentally import something it
+never declared as a dependency — a class of bug that's easy to introduce
+and hard to notice locally.
+
+## Decision
+
+Use pnpm workspaces (`pnpm-workspace.yaml`), pinned via `packageManager` in
+the root `package.json`.
+
+## Alternatives Considered
+
+- **npm workspaces** — supported, but weaker isolation (phantom dependency
+  risk) and slower installs than pnpm's content-addressable store.
+- **Yarn (classic or Berry)** — Berry's PnP mode solves phantom dependencies
+  too, but has a rougher compatibility story with some tooling than pnpm's
+  more conventional `node_modules` layout.
+
+## Trade-offs
+
+- Contributors need pnpm installed specifically — the repo doesn't work
+  with a plain `npm install`.
+
+## Consequences
+
+- Every workspace script and deploy config
+  (`render.yaml`, `apps/web/vercel.json`) installs with pnpm explicitly
+  (`npm install -g pnpm@8.6.2 && pnpm install --frozen-lockfile`).
+
+## References
+
+- `pnpm-workspace.yaml`, `package.json` (`packageManager`)

@@ -1,0 +1,30 @@
+---
+title: Docker (Deployment)
+description: Whether the deployed API is containerized — it isn't.
+---
+
+# Docker — Deployment
+
+<Callout type="warning">**Status:** 📋 Planned — Render builds and runs `apps/api` natively from source today; there is no `Dockerfile` in the repo.</Callout>
+
+## Purpose
+
+Render's native Node runtime already covers the current deployment need —
+containerizing the API doesn't unlock anything the project needs today. It
+becomes worth doing if the project ever needs to run the API on a platform
+without native Node support, or wants deployment parity with local
+development (see [Getting Started: Docker](/getting-started/docker), a
+related but separate concern: that page is about containerizing local
+Postgres, not the API itself).
+
+## Planned shape
+
+- A `Dockerfile` for `apps/api` would make the API deployable to any
+  container-based host (avoiding lock-in to Render specifically), consistent
+  with the project's [infrastructure philosophy](/introduction/tech-stack#infrastructure-philosophy).
+- No immediate driver for this — it's a portability improvement, not a
+  blocked requirement.
+
+## References
+
+- [Getting Started: Docker](/getting-started/docker) — local dev containers, a separate concern

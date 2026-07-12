@@ -1,0 +1,31 @@
+---
+title: "Phase 2 — Production Features"
+description: Hardening and rounding out the MVP into something production-shaped.
+---
+
+# Phase 2 — Production Features
+
+<Callout type="warning">**Status:** 🚧 In Progress</Callout>
+
+## Done
+
+- Rate limiting (global + stricter auth-route limits).
+- `helmet()` security headers, restricted CORS, `https`-only remote images.
+- Cursor pagination for reviews, offset pagination + filtering for
+  restaurants — see [API: Pagination](/api/pagination).
+
+## Pending
+
+| Item | Status | Page |
+| --- | --- | --- |
+| Real image upload (Cloudinary) | 🚧 | [Image Uploads](/features/image-uploads) |
+| Favorites | 📋 | [Favorites](/features/favorites) |
+| Notifications | 📋 | [Notifications](/features/notifications) |
+| Reservations | 📋 | [Reservations](/features/reservations) |
+| Swagger / OpenAPI docs | 📋 | [API: Swagger](/api/swagger) |
+| CI (GitHub Actions) | 📋 | [Infrastructure: GitHub Actions](/infrastructure/github-actions) |
+| Docker (local + deploy) | 📋 | [Getting Started: Docker](/getting-started/docker) |
+
+This phase is where "does everything a reviewer/owner needs" (Phase 1)
+becomes "is boring to operate" — the pending items are mostly hardening and
+completeness, not new architecture.

@@ -1,0 +1,29 @@
+---
+title: Observability Overview
+description: Mostly future — with one exception already in production.
+---
+
+# Observability Overview
+
+<Callout type="warning">**Status:** 📋 Planned, with one exception — see [Health Checks](/observability/health-checks).</Callout>
+
+This section is marked "(Future)" deliberately: metrics, structured
+logging, and tracing are deferred to
+[Phase 6](/roadmap/phase-6-observability), on the reasoning that formalizing
+observability is most valuable once there's real production traffic to
+observe — building dashboards for traffic that doesn't exist yet is effort
+spent ahead of need.
+
+One piece already exists ahead of that phase: `GET /api/health` checks
+database connectivity today, because Render (and any future load balancer
+or uptime check) needs *something* to poll — see
+[Health Checks](/observability/health-checks). It's the one page in this
+section describing something real rather than planned.
+
+| Page | Status |
+| --- | --- |
+| [Health Checks](/observability/health-checks) | 🚧 In Progress |
+| [Metrics](/observability/metrics) | 📋 Planned |
+| [Logging](/observability/logging) | 📋 Planned |
+| [Tracing](/observability/tracing) | 📋 Planned |
+| [Monitoring](/observability/monitoring) | 📋 Planned |

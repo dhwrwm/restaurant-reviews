@@ -15,7 +15,7 @@ packages/
            shared by both apps so they can't drift out of sync
 ```
 
-See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full system design — data model, auth flow, API surface, and key design decisions.
+See the [engineering handbook](https://restaurant-reviews-docs.vercel.app/) (`apps/docs`, or [ARCHITECTURE.md](./ARCHITECTURE.md) for a pointer) for the full system design — data model, auth flow, API surface, and key design decisions.
 
 ## Prerequisites
 
@@ -68,4 +68,4 @@ Each app can also be run individually with `pnpm --filter api <script>` / `pnpm 
 - **Web** → [Vercel](https://vercel.com), project root set to `apps/web`; build/install commands are pinned in [`apps/web/vercel.json`](./apps/web/vercel.json) since the app depends on `packages/types`, which in turn depends on the Prisma schema in `apps/api`. Push to `main` and Vercel auto-builds and deploys. Live: [restaurant-reviews-web.vercel.app](https://restaurant-reviews-web.vercel.app/)
 - **Docs** → [Vercel](https://vercel.com), project root set to `apps/docs`; build/install commands are pinned in [`apps/docs/vercel.json`](./apps/docs/vercel.json). Push to `main` and Vercel auto-builds and deploys. Live: [restaurant-reviews-docs.vercel.app](https://restaurant-reviews-docs.vercel.app/)
 
-Both platforms deploy straight from GitHub — no separate CI pipeline. See [ARCHITECTURE.md](./ARCHITECTURE.md#deployment) for the full build pipeline and required environment variables.
+Both platforms deploy straight from GitHub — no separate CI pipeline. See [Infrastructure](https://restaurant-reviews-docs.vercel.app/infrastructure) in the docs handbook for the full build pipeline and required environment variables.

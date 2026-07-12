@@ -1,0 +1,27 @@
+---
+title: Hosting
+description: Why Vercel, Render, and Neon.
+---
+
+# Hosting
+
+<Callout type="info">**Status:** ✅ Implemented</Callout>
+
+| Purpose | Choice | Why |
+| --- | --- | --- |
+| Frontend (`apps/web`) | Vercel | First-party Next.js support, generous free tier, zero-config preview deploys |
+| Docs (`apps/docs`) | Vercel | Same platform as web — one less thing to operate |
+| Backend (`apps/api`) | Render | Free tier that can run a persistent Node process (unlike most serverless-first platforms), IaC via `render.yaml` |
+| Database | Neon (PostgreSQL) | Free tier, serverless Postgres, standard `DATABASE_URL` — no vendor-specific driver required, so it's swappable for any other Postgres host |
+
+This mirrors the project's [infrastructure philosophy](/introduction/tech-stack#infrastructure-philosophy):
+every current choice has a genuine free tier, and none of them require a
+vendor-specific SDK that would make switching providers a rewrite rather
+than a config change.
+
+## Known limitation: Render free-tier cold starts
+
+Render's free tier spins down the API after inactivity; the first request
+after spin-down is noticeably slower while it wakes. This is accepted for
+now as the cost of staying on a free tier — see
+[Cost Strategy](/infrastructure/cost-strategy).

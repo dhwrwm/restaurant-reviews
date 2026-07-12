@@ -1,0 +1,26 @@
+---
+title: Features
+description: Status of every feature, implemented or planned.
+---
+
+# Features
+
+Each page below follows the same structure: Overview, Status, Purpose,
+Architecture, Implementation, Trade-offs, Future Improvements, References —
+plus Database/API/Frontend/Backend/Security/Performance subsections where
+they apply. A 📋 Planned feature doesn't have a real Backend or Database
+section to document yet, so it gets a short "planned shape" note instead.
+
+| Feature | Status | Notes |
+| --- | --- | --- |
+| [Authentication](/features/authentication) | ✅ Implemented | JWT access/refresh, Argon2, HTTP-only cookies |
+| [Authorization](/features/authorization) | ✅ Implemented | `REVIEWER` / `OWNER` roles, guards + ownership checks |
+| [Restaurants](/features/restaurants) | ✅ Implemented | Owner CRUD, filterable/paginated listing |
+| [Reviews](/features/reviews) | ✅ Implemented | Reviewer CRUD, one review per restaurant per reviewer |
+| [Search](/features/search) | 🚧 In Progress | City/cuisine/rating query filters exist; no full-text or ranked search |
+| [Image Uploads](/features/image-uploads) | 🚧 In Progress | Preview image is a plain URL field; no file upload/storage pipeline |
+| [Favorites](/features/favorites) | 📋 Planned | Not modeled in the schema yet |
+| [Notifications](/features/notifications) | 📋 Planned | No delivery mechanism exists |
+| [Reservations](/features/reservations) | 📋 Planned | No booking model exists |
+| [Analytics](/features/analytics) | 📋 Planned | Tied to the [Go analytics service](/roadmap/phase-3-redis-go-services) |
+| [AI](/features/ai) | 📋 Planned | Tied to [pgvector / semantic search](/roadmap/phase-5-ai-semantic-search) |

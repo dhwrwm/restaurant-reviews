@@ -1,0 +1,50 @@
+---
+title: Repository Structure
+description: How the monorepo is laid out today.
+---
+
+# Repository Structure
+
+```text
+apps/
+├── web        # Next.js frontend (App Router)
+├── api        # NestJS backend + Prisma
+└── docs       # This documentation site (Next.js + Nextra)
+
+packages/
+└── types      # Cuisine/Role enums generated from apps/api/prisma/schema.prisma
+```
+
+There is no `services/` directory yet — Go services (search, analytics) are
+planned but not scaffolded. See
+[Phase 3 — Redis & Go Services](/roadmap/phase-3-redis-go-services).
+
+`packages/types` is the only package shared between apps today. It exports
+enums generated from the Prisma schema so the frontend and backend can't
+drift out of sync on `Cuisine`/`Role` values, without bundling the Prisma
+runtime into the Next.js app. See
+[Architecture: Monorepo Structure](/architecture/current#monorepo-structure) for how
+Turborepo sequences building it.
+
+## Inside each app
+
+```text
+apps/api/src/
+├── auth/          # JWT issuing/refresh, guards, strategies
+├── restaurants/    # Restaurant CRUD + listing
+├── reviews/        # Review CRUD
+├── users/
+├── health/         # /api/health
+└── prisma/         # PrismaService
+
+apps/web/src/
+├── app/            # Route definitions, Server Components, layouts
+├── features/       # auth / restaurants / reviews (api, components, schemas)
+├── components/     # Reusable UI
+├── lib/            # API client, utilities
+└── services/
+```
+
+Both apps are organized by feature, not by technical layer — see
+[Architecture: Frontend](/architecture/frontend) and
+[Architecture: Backend](/architecture/backend) for the reasoning.

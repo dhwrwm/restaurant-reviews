@@ -1,0 +1,38 @@
+---
+title: Favorites
+description: Letting reviewers bookmark restaurants — not modeled yet.
+---
+
+# Favorites
+
+<Callout type="warning">**Status:** 📋 Planned — no model, endpoint, or UI exists today.</Callout>
+
+## Overview
+
+Lets a reviewer bookmark restaurants for quick access later, separate from
+leaving a review.
+
+## Purpose
+
+Browsing and reviewing are already implemented; "save for later" is a small,
+well-understood addition once there's a concrete UI slot for it (e.g. a
+"My Favorites" page).
+
+## Planned shape
+
+- A `Favorite` join model: `userId` + `restaurantId`, unique on the pair —
+  the same pattern as the `Review` unique constraint, without the rating/
+  comment fields.
+- `GET /users/me/favorites`, `POST /restaurants/:slug/favorite`,
+  `DELETE /restaurants/:slug/favorite`.
+- No dependency on any future-phase infrastructure (Redis, Go, etc.) — this
+  is a same-shape addition to the current modular monolith.
+
+## Trade-offs
+
+Not yet applicable — nothing is built.
+
+## References
+
+- [Features: Reviews](/features/reviews) — the closest existing model to
+  follow for the unique-constraint pattern.

@@ -1,0 +1,28 @@
+---
+title: Metrics
+description: Request/error/latency metrics — not collected yet.
+---
+
+# Metrics
+
+<Callout type="warning">**Status:** 📋 Planned — no metrics collection exists in `apps/api` or `apps/web` today.</Callout>
+
+## Purpose
+
+Neither app emits request counts, error rates, or latency histograms today.
+That's acceptable pre-production-traffic, but becomes a real gap once the
+platform has real users — without metrics, a slow endpoint or rising error
+rate is invisible until a user reports it.
+
+## Planned shape
+
+- Instrument `apps/api` with a metrics library (candidates: OpenTelemetry
+  metrics, or `prom-client` for direct Prometheus scraping) once there's
+  traffic worth measuring — see
+  [Phase 6 — Observability](/roadmap/phase-6-observability).
+- Minimum viable set: request count, error rate, and latency percentiles
+  per route.
+
+## References
+
+- [Roadmap: Phase 6](/roadmap/phase-6-observability)

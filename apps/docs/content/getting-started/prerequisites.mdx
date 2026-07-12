@@ -1,0 +1,21 @@
+---
+title: Prerequisites
+description: What needs to be installed before running the project locally.
+---
+
+# Prerequisites
+
+<Callout type="info">**Status:** ✅ Implemented</Callout>
+
+- **Node.js** — version pinned in the repo's `.nvmrc`.
+- **pnpm** — version pinned by `packageManager` in the root `package.json`
+  (currently `8.6.2`). Turborepo and all workspace scripts assume pnpm; npm
+  or yarn are not supported layouts for this repo.
+- **A PostgreSQL database** — any reachable instance works for local
+  development (a local install, Docker container you run yourself, or a free
+  [Neon](https://neon.tech) branch). Production uses Neon; see
+  [Hosting](/infrastructure/hosting).
+
+No Redis, Go toolchain, or other future-phase dependency is required — none
+of that is part of the current implementation. See
+[Tech Stack](/introduction/tech-stack) for what's implemented vs. planned.

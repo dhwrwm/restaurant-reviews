@@ -1,0 +1,56 @@
+---
+title: "ADR-0007: Go for Extracted Services"
+description: The language for services extracted out of the NestJS monolith.
+---
+
+# ADR-0007: Go for Extracted Services
+
+<Callout type="warning">**Status:** Proposed — no Go service exists in this repository yet. This ADR records the reasoning in advance of [Phase 3](/roadmap/phase-3-redis-go-services).</Callout>
+
+## Context
+
+[Target Architecture](/architecture/target) anticipates extracting
+search, analytics, image processing, and background workers into standalone
+services once their workload profile diverges from the rest of the NestJS
+monolith (read-heavy, compute-heavy, or otherwise distinct).
+
+## Problem
+
+Any extracted service needs to be fast enough to justify the operational
+cost of running a second runtime, and simple enough to deploy on the same
+free-tier-friendly infrastructure as the rest of the project.
+
+## Decision
+
+When a module is extracted, write it in Go rather than continuing in
+TypeScript/Node.
+
+## Alternatives Considered
+
+- **Extract as a second NestJS/Node service** — lowest ramp-up cost (same
+  language as the monolith), but doesn't address why the workload was
+  extracted in the first place if it's CPU- or concurrency-bound.
+- **Rust** — comparable performance profile; Go was preferred for faster
+  iteration speed and a simpler concurrency model (goroutines) for
+  I/O-bound services like search and analytics aggregation.
+
+## Trade-offs
+
+- Introduces a second language into the codebase — contributors need Go
+  familiarity for these services specifically.
+- No shared types with `packages/types` — a Go service talks to NestJS (and
+  vice versa) over a defined API contract, not shared code.
+
+## Consequences
+
+- NestJS remains the single client-facing API gateway in every version of
+  [Target Architecture](/architecture/target) — clients never call a Go
+  service directly.
+- Each Go service is only introduced once its specific extraction trigger
+  (see [Architecture: Modular Monolith Approach](/architecture#modular-monolith-approach))
+  is actually met, not on a fixed timeline.
+
+## References
+
+- [Target Architecture: Future Services](/architecture/target#future-services)
+- [Roadmap: Phase 3](/roadmap/phase-3-redis-go-services)

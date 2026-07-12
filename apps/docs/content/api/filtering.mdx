@@ -1,0 +1,26 @@
+---
+title: Filtering
+description: Query parameters supported on the restaurant listing.
+---
+
+# Filtering
+
+<Callout type="info">**Status:** ✅ Implemented</Callout>
+
+`GET /restaurants` supports:
+
+| Parameter | Type | Notes |
+| --- | --- | --- |
+| `city` | string | Exact match; see `GET /restaurants/cities` for valid values |
+| `cuisine` | `Cuisine` enum | Validated against the Prisma-generated enum |
+| `minRating` | number | Filters on `averageRating >=` |
+| `page` | number | Offset pagination — see [Pagination](/api/pagination) |
+| sort | rating | Sorts by `averageRating`; backed by the `(cuisine, averageRating)` composite index when combined with a cuisine filter — see [Database: Indexing](/database/indexing) |
+
+The URL is the source of truth while navigating the app; selected filters
+are additionally mirrored to `localStorage` so they're restored on a visit
+with no query parameters. See
+[Request Lifecycle](/architecture/request-lifecycle#browsing-the-restaurant-listing).
+
+There's no free-text filter parameter — see [Features: Search](/features/search)
+for what a text-search addition would look like.

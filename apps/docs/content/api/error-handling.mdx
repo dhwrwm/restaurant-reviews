@@ -1,0 +1,28 @@
+---
+title: Error Handling
+description: Status codes and validation error shape.
+---
+
+# Error Handling
+
+<Callout type="info">**Status:** ✅ Implemented</Callout>
+
+There's no custom global exception filter — errors are Nest's default
+`HttpException` handling plus whatever the global `ValidationPipe` produces.
+
+| Status | When |
+| --- | --- |
+| `400 Bad Request` | DTO validation failure (missing/invalid/unexpected field) |
+| `401 Unauthorized` | Missing or invalid JWT |
+| `403 Forbidden` | Valid JWT, wrong role or failed ownership check |
+| `404 Not Found` | Resource (restaurant/review) doesn't exist |
+| `409 Conflict` | Unique constraint violation (duplicate email, duplicate review) |
+
+`ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })` means a
+request body with an unexpected field is rejected with `400` rather than
+having the extra field silently ignored — a deliberate stricter-than-default
+choice.
+
+On the frontend, Next.js error boundaries (`error.tsx`, `global-error.tsx`,
+`not-found.tsx`) handle unexpected failures — see
+[Architecture: Frontend](/architecture/frontend#error-handling).

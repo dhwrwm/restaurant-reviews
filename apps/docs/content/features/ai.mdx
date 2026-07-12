@@ -1,0 +1,42 @@
+---
+title: AI
+description: Review summaries, recommendations, moderation — not built yet.
+---
+
+# AI
+
+<Callout type="warning">**Status:** 📋 Planned — no AI-assisted feature exists today.</Callout>
+
+## Overview
+
+Umbrella for several speculative capabilities: review summaries, restaurant
+summaries, recommendations, moderation, and AI-assisted search.
+
+## Purpose
+
+None of these are scoped in implementation detail yet. They're grouped here
+because they share an architectural constraint: LLM calls are
+higher-latency and higher-cost than a database query, which argues for
+isolating them behind their own service boundary rather than calling them
+inline from core request paths (see
+[Target Architecture: AI](/architecture/target#ai)).
+
+## Planned capabilities
+
+- Review summaries — condensing many reviews into a short summary.
+- Restaurant summaries — similar, at the restaurant level.
+- Recommendations — likely built on `pgvector` embeddings, see
+  [Phase 5 — AI & Semantic Search](/roadmap/phase-5-ai-semantic-search).
+- Moderation — flagging low-quality or abusive review content.
+- AI-assisted / natural-language search, complementing
+  [Features: Search](/features/search).
+
+## Trade-offs
+
+Not yet applicable — nothing is built, and provider/model choice, cost, and
+latency budgets aren't decided.
+
+## References
+
+- [Target Architecture: AI](/architecture/target#ai)
+- [Roadmap: Phase 5](/roadmap/phase-5-ai-semantic-search)

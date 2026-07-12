@@ -1,0 +1,56 @@
+---
+title: "ADR-0006: PostgreSQL"
+description: The primary datastore.
+---
+
+# ADR-0006: PostgreSQL
+
+<Callout type="success">**Status:** Accepted</Callout>
+
+## Context
+
+The data model is relational (users own restaurants, restaurants have
+reviews, reviews are uniquely constrained per reviewer) with real
+transactional requirements (e.g. refresh token rotation — see
+[Features: Authentication](/features/authentication)).
+
+## Problem
+
+The datastore needs to enforce relational integrity and uniqueness
+constraints at the database level (not just in application code), and
+needs a credible free-tier managed hosting option.
+
+## Decision
+
+Use PostgreSQL, hosted on [Neon](https://neon.tech) in production (free
+tier). See [Infrastructure: Hosting](/infrastructure/hosting).
+
+## Alternatives Considered
+
+- **MongoDB** — flexible schema, but the data model here is inherently
+  relational (foreign keys, unique compound constraints like
+  `(restaurantId, reviewerId)`); modeling that in a document store would
+  mean re-implementing referential integrity in application code.
+- **MySQL / PlanetScale** — a credible relational alternative; PostgreSQL
+  was chosen for its native support for future extensions the roadmap
+  already anticipates — PostGIS ([ADR-0009](/adr/0009-postgis)) and
+  pgvector ([Phase 5](/roadmap/phase-5-ai-semantic-search)) — which are
+  Postgres-specific.
+
+## Trade-offs
+
+- Locks the [PostGIS](/adr/0009-postgis) and pgvector future extensions to
+  staying on Postgres (accepted — it's the reason Postgres was chosen).
+
+## Consequences
+
+- Unique constraints (e.g. one review per reviewer per restaurant) are
+  enforced by the database, not application logic — see
+  [Database: Indexing](/database/indexing).
+- Geospatial and vector-search future phases extend the same database
+  rather than introducing a separate datastore.
+
+## References
+
+- [Database](/database)
+- [Infrastructure: Hosting](/infrastructure/hosting)

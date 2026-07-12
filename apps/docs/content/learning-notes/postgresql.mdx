@@ -1,0 +1,15 @@
+---
+title: "Learning Notes: PostgreSQL"
+description: Notes from schema and query design against Postgres.
+---
+
+# Learning Notes: PostgreSQL
+
+- A composite index `(cuisine, averageRating)` serves both "filter by
+  cuisine" alone and "filter by cuisine, sort by rating" — but wouldn't help
+  a query that sorts by rating *without* filtering by cuisine. Worth
+  remembering before assuming one composite index covers every combination
+  of filter/sort. See [Database: Indexing](/database/indexing).
+- Denormalizing `averageRating`/`reviewCount` onto `Restaurant` was a small
+  change that removed a join from the platform's highest-traffic query
+  (the listing page) — see [Database: Performance](/database/performance).

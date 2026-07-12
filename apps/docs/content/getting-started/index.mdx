@@ -1,0 +1,34 @@
+---
+title: Local Development
+description: Get the platform running locally in a few commands.
+---
+
+# Local Development
+
+<Callout type="info">**Status:** ✅ Implemented — this is the actual setup flow used today.</Callout>
+
+```bash
+pnpm install
+
+cp apps/api/.env.example apps/api/.env      # fill in DATABASE_URL and JWT secrets
+cp apps/web/.env.example apps/web/.env.local
+
+pnpm db:migrate
+pnpm db:seed    # optional — sample restaurants/reviews/users
+                # (seed users' password: Password123!)
+
+pnpm dev        # runs apps/api and apps/web together
+```
+
+- API: `http://localhost:3001/api`
+- Web: `http://localhost:3000`
+
+See [Prerequisites](/getting-started/prerequisites) for what needs to be
+installed first, [Environment Variables](/getting-started/environment-variables)
+for what each variable does, and
+[Running the Project](/getting-started/running-the-project) for the rest of
+the available scripts (build, test, lint, Prisma Studio).
+
+[Docker](/getting-started/docker) is planned but not available yet — today,
+local development requires Node/pnpm and a Postgres connection string
+directly on the host.

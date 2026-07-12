@@ -1,0 +1,37 @@
+---
+title: Cost Strategy
+description: What this stack actually costs today, and what stays optional.
+---
+
+# Cost Strategy
+
+<Callout type="info">**Status:** ✅ Implemented</Callout>
+
+## Today: $0
+
+Every service in production use today runs on a free tier:
+
+| Service | Tier |
+| --- | --- |
+| Vercel (web + docs) | Free (Hobby) |
+| Render (API) | Free |
+| Neon (Postgres) | Free |
+
+The trade-off accepted for this is Render's free-tier cold start on the API
+after inactivity — see [Hosting](/infrastructure/hosting#known-limitation-render-free-tier-cold-starts).
+
+## Future services, same philosophy
+
+Every planned addition has a free/open-source-first option, per the
+project's [infrastructure philosophy](/introduction/tech-stack#infrastructure-philosophy):
+
+| Purpose | Default | Paid alternative (optional, not default) |
+| --- | --- | --- |
+| Caching / jobs | Upstash Redis (free tier) | Managed Redis (e.g. Redis Cloud) |
+| Object storage | Cloudinary (free tier) | S3 + CloudFront |
+| Maps | OpenStreetMap + Leaflet | Google Maps Platform |
+| Geospatial | PostGIS (self-hosted extension, no added cost on Neon) | — |
+| CI | GitHub Actions (free minutes for public/small private repos) | — |
+
+Paid services are only ever documented as alternatives a future maintainer
+could choose — never as the assumed default.

@@ -1,0 +1,29 @@
+---
+title: GitHub Actions
+description: There's no CI pipeline today — deploys are native git integrations.
+---
+
+# GitHub Actions
+
+<Callout type="warning">**Status:** 📋 Planned — there is no `.github/workflows/` directory in this repo; Vercel and Render deploy straight from GitHub with no CI step in between.</Callout>
+
+## Purpose
+
+Today, a push to `main` that fails to typecheck, lint, or pass tests can
+still deploy — the platform build step (`next build` / `nest build`) is the
+only gate, and it doesn't run `pnpm test` or `pnpm lint`. A CI workflow
+would run those checks on every PR, before merge, independent of whether the
+deploy platforms happen to catch the same issue.
+
+## Planned shape
+
+- A single workflow on `pull_request` running `pnpm install`,
+  `pnpm typecheck`, `pnpm lint`, and `pnpm test` via Turborepo, scoped by
+  Turborepo's affected-package detection so a docs-only PR doesn't wait on
+  API tests.
+- Deploys stay on Render/Vercel's native git integration — GitHub Actions is
+  additive (a merge gate), not a replacement for how deploys happen.
+
+## References
+
+- [Getting Started: Running the Project](/getting-started/running-the-project) — the exact commands a workflow would run

@@ -1,0 +1,29 @@
+---
+title: Monitoring
+description: Uptime/alerting on top of health checks and metrics — not set up yet.
+---
+
+# Monitoring
+
+<Callout type="warning">**Status:** 📋 Planned — no uptime monitoring or alerting is configured today, beyond Render's own use of `/api/health` to manage the instance.</Callout>
+
+## Purpose
+
+Render already polls [Health Checks](/observability/health-checks) to
+decide whether to keep an instance running, but nothing alerts a human when
+it fails, and there's no external uptime check independent of Render itself.
+
+## Planned shape
+
+- An external uptime monitor (free-tier options exist, e.g. a scheduled
+  check against `/api/health`) with alerting, so a database outage is
+  noticed independent of Render's internal health handling.
+- Dashboards built on top of [Metrics](/observability/metrics) once those
+  exist — monitoring depends on metrics/logging being in place first, which
+  is why this page is last in the section despite being listed as a
+  separate concern.
+
+## References
+
+- [Health Checks](/observability/health-checks)
+- [Roadmap: Phase 6](/roadmap/phase-6-observability)

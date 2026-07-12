@@ -1,0 +1,52 @@
+---
+title: "ADR-0001: Turborepo"
+description: Monorepo task orchestration.
+---
+
+# ADR-0001: Turborepo
+
+<Callout type="success">**Status:** Accepted</Callout>
+
+## Context
+
+The project spans multiple deployable apps (`web`, `api`, `docs`) and at
+least one shared package (`types`) from the start, all in one repository.
+
+## Problem
+
+Running `build`/`test`/`lint`/`typecheck` across apps needs to respect
+dependency order (`packages/types` must build before `apps/web` or
+`apps/api` that import it) and shouldn't re-run work that hasn't changed.
+
+## Decision
+
+Use Turborepo (`turbo.json`) to define the task graph (`dependsOn: ["^build"]`
+etc.) and scope commands per package via `pnpm --filter`.
+
+## Alternatives Considered
+
+- **Plain npm/pnpm scripts with manual ordering** — works at this scale but
+  requires every contributor to remember the correct order by hand; no
+  caching.
+- **Nx** — comparable capability, but heavier configuration surface than
+  this project's three apps + one package need.
+
+## Trade-offs
+
+- Another config file (`turbo.json`) and concept (task graph) to learn.
+- Turborepo's remote caching isn't configured — only local caching is in
+  use today.
+
+## Consequences
+
+- `packages/types` building before dependent apps is guaranteed by the task
+  graph, not by contributor discipline — see
+  [Architecture: Monorepo Structure](/architecture/current#monorepo-structure).
+- Both deploy platforms invoke `pnpm turbo run build --filter=<app>...`
+  rather than a plain `next build`/`nest build` — see
+  [Infrastructure: Deployment](/infrastructure/deployment).
+
+## References
+
+- `turbo.json`
+- [Infrastructure: Deployment](/infrastructure/deployment)

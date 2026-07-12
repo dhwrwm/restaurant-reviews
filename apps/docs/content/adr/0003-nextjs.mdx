@@ -1,0 +1,52 @@
+---
+title: "ADR-0003: Next.js"
+description: The frontend framework.
+---
+
+# ADR-0003: Next.js
+
+<Callout type="success">**Status:** Accepted</Callout>
+
+## Context
+
+The frontend needs SEO-friendly restaurant listing/detail pages alongside
+genuinely interactive features (auth forms, filters, review submission).
+
+## Problem
+
+A pure client-rendered SPA (e.g. plain React + a router) ships more
+JavaScript than a content-heavy listing page needs and hurts SEO/first
+paint; a pure static site can't support authenticated, per-user
+interactivity.
+
+## Decision
+
+Use Next.js with the App Router: Server Components by default for
+listing/detail pages, Client Components explicitly for interactive pieces.
+See [Architecture: Frontend](/architecture/frontend).
+
+## Alternatives Considered
+
+- **Create React App / plain Vite SPA** — simpler mental model, but no
+  built-in server rendering, meaning either worse SEO or a hand-rolled SSR
+  setup.
+- **Remix** — comparable server/client model; Next.js was chosen for its
+  larger ecosystem and first-party Vercel deployment support (see
+  [ADR-... Hosting](/infrastructure/hosting)).
+
+## Trade-offs
+
+- Server/Client Component boundaries are an extra concept contributors need
+  to reason about explicitly (`"use client"`), vs. a single client-rendered
+  mental model.
+
+## Consequences
+
+- No client-side data-fetching library (e.g. React Query) is used — data
+  loads via Server Components or direct API calls. See
+  [Architecture: Frontend](/architecture/frontend).
+
+## References
+
+- [Architecture: Frontend](/architecture/frontend)
+- `apps/web/`

@@ -1,0 +1,17 @@
+---
+title: "Learning Notes: NestJS"
+description: Notes from building the API on NestJS.
+---
+
+# Learning Notes: NestJS
+
+Notes accumulate here as new modules and patterns get built out — currently
+covers auth, restaurants, reviews (see [Architecture: Backend](/architecture/backend)).
+
+- Ownership checks belong in the service layer, not a guard — a guard runs
+  before the specific resource is loaded, so it can only check role, never
+  "does this user own *this* row." Learned this while building
+  [Authorization](/features/authorization).
+- `ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })` catches
+  more bugs during development than expected — a typo'd DTO field name
+  fails loudly (`400`) instead of silently being ignored.

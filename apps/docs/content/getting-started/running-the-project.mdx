@@ -1,0 +1,41 @@
+---
+title: Running the Project
+description: Every workspace script available today.
+---
+
+# Running the Project
+
+<Callout type="info">**Status:** ✅ Implemented</Callout>
+
+```bash
+pnpm dev         # apps/api + apps/web (builds packages/types first)
+
+pnpm build       # build all apps/packages
+pnpm test        # run all test suites
+pnpm lint        # lint all apps
+pnpm typecheck   # tsc --noEmit for all apps
+pnpm format      # prettier --write .
+
+pnpm db:generate # regenerate the Prisma client
+pnpm db:migrate  # apply Prisma migrations (prisma migrate dev)
+pnpm db:seed     # seed sample data
+pnpm db:studio   # open Prisma Studio
+```
+
+Each app can also be run individually: `pnpm --filter api <script>` /
+`pnpm --filter web <script>` / `pnpm --filter docs <script>`.
+
+## Tests
+
+Each app owns an independent test suite, run via `pnpm test` (or scoped with
+`--filter`):
+
+- **API** — Jest, covering services/controllers/guards against a mocked
+  Prisma client, plus a smoke `test:e2e` that boots the NestJS app and
+  confirms it serves requests.
+- **Web** — Jest + React Testing Library, covering components, user
+  interactions, and the `features/*/api/*` data-fetching functions (request
+  shape, success parsing, error propagation) against a mocked `fetch`.
+
+There is no end-to-end browser test suite (e.g. Playwright/Cypress) today —
+tests are unit/integration scoped per app.

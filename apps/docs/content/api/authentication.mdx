@@ -1,0 +1,34 @@
+---
+title: API — Authentication
+description: The auth endpoint contract.
+---
+
+# API — Authentication
+
+<Callout type="info">**Status:** ✅ Implemented</Callout>
+
+This page documents the request/response contract. For the design rationale
+(token lifetimes, rotation, hashing), see
+[Features: Authentication](/features/authentication).
+
+| Endpoint | Auth required | Notes |
+| --- | --- | --- |
+| `POST /auth/register` | No | Rate-limited: 5/min. Sets auth cookies. |
+| `POST /auth/login` | No | Rate-limited: 5/min. Sets auth cookies. |
+| `GET /auth/me` | Yes | Returns the current user. |
+| `POST /auth/refresh` | Refresh cookie | Rotates the refresh token, reissues both cookies. |
+| `POST /auth/logout` | Yes | Revokes the current session's refresh token. |
+| `POST /auth/logout-all` | Yes | Revokes every refresh token for the user. |
+
+All five auth-issuing/consuming endpoints communicate exclusively via
+`HttpOnly` cookies (`secure` in production, `sameSite: lax`) — there is no
+`Authorization: Bearer` header flow, so tokens are never exposed to
+client-side JavaScript.
+
+## Errors
+
+- `401 Unauthorized` — missing/invalid/expired access token, or missing
+  refresh token on `/auth/refresh`.
+- `409 Conflict` — `/auth/register` with an email already in use.
+
+See [API: Error Handling](/api/error-handling) for the general shape.

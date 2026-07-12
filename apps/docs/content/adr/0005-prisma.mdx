@@ -1,0 +1,57 @@
+---
+title: "ADR-0005: Prisma"
+description: The ORM and schema source of truth.
+---
+
+# ADR-0005: Prisma
+
+<Callout type="success">**Status:** Accepted</Callout>
+
+## Context
+
+The schema (`User`, `Restaurant`, `Review`, `RefreshToken`) needs to be
+type-safe from the database up through the API, and the frontend needs
+access to a subset of that schema (`Cuisine`/`Role` enums) without depending
+on the backend's database layer.
+
+## Problem
+
+A raw SQL / query-builder approach (e.g. Knex) means hand-maintaining
+TypeScript types alongside the schema, with no compile-time guarantee they
+match. It also gives no natural way to share just the enums with the
+frontend.
+
+## Decision
+
+Use Prisma as the ORM, with a schema (`apps/api/prisma/schema.prisma`) that
+declares two generators: the API's full client, and an enum-only client
+consumed by `packages/types`. See [Database: Prisma Schema](/database/prisma-schema).
+
+## Alternatives Considered
+
+- **Drizzle ORM** — lighter runtime, SQL-like query syntax; Prisma was
+  chosen for its more mature migration tooling (`prisma migrate`) at the
+  time this decision was made.
+- **Raw SQL + a query builder** — maximum control, but no generated types
+  and no built-in migration history.
+
+## Trade-offs
+
+- Prisma's generated client adds a build step (`prisma generate`) that every
+  deploy pipeline must run before building — see
+  [Infrastructure: Deployment](/infrastructure/deployment#why-build-order-matters).
+- The dual-generator setup for `packages/types` is a nonstandard pattern
+  that a new contributor has to learn from documentation rather than
+  Prisma's own docs.
+
+## Consequences
+
+- Schema changes (e.g. adding a `Cuisine` value) propagate to the database,
+  API validation, and frontend types simultaneously — no manual sync step.
+- Migration history is Prisma's, in `apps/api/prisma/migrations/` — see
+  [Database: Migrations](/database/migrations).
+
+## References
+
+- [Database](/database)
+- `apps/api/prisma/schema.prisma`

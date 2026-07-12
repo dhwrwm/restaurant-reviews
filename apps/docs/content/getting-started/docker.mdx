@@ -1,0 +1,34 @@
+---
+title: Docker
+description: Containerized local development — planned, not yet built.
+---
+
+# Docker
+
+<Callout type="warning">**Status:** 📋 Planned — there is no `Dockerfile` or `docker-compose.yml` anywhere in this repository today.</Callout>
+
+## Purpose
+
+Local development currently requires Node, pnpm, and a directly-reachable
+Postgres connection string (see [Prerequisites](/getting-started/prerequisites)).
+That's low-friction for a single contributor, but it means "works on my
+machine" isn't guaranteed, and there's no one-command way to spin up a
+disposable Postgres instance for local work.
+
+## Planned shape
+
+- A `docker-compose.yml` at the repo root running a local Postgres container
+  (and, once introduced, Redis — see
+  [Phase 3](/roadmap/phase-3-redis-go-services)) so `pnpm dev` needs no
+  externally-hosted database.
+- `Dockerfile`s per app are **not** planned for local dev — `apps/api` and
+  `apps/web` run natively via `pnpm dev` today and that isn't expected to
+  change. Containers are being considered for infrastructure dependencies
+  (databases, caches), not for the apps themselves.
+- This is a separate concern from [Infrastructure: Docker](/infrastructure/docker),
+  which is about whether the deployed API is ever containerized — Render
+  currently builds and runs it natively from source, no image involved.
+
+No timeline is committed; this becomes worth building once onboarding a new
+contributor or CI (see [GitHub Actions](/infrastructure/github-actions))
+makes "spin up Postgres yourself" a recurring cost.

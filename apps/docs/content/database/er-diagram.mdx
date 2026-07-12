@@ -1,0 +1,59 @@
+---
+title: ER Diagram
+description: The four models in the current schema and how they relate.
+---
+
+# ER Diagram
+
+<Callout type="info">**Status:** ✅ Implemented — generated from `apps/api/prisma/schema.prisma`.</Callout>
+
+```mermaid
+erDiagram
+    USER ||--o{ RESTAURANT : owns
+    USER ||--o{ REVIEW : writes
+    USER ||--o{ REFRESH_TOKEN : has
+    RESTAURANT ||--o{ REVIEW : receives
+
+    USER {
+        string id PK
+        string email UK
+        string name
+        string passwordHash
+        Role role
+    }
+    REFRESH_TOKEN {
+        string id PK
+        string jti UK
+        string tokenHash
+        string userId FK
+        datetime expiresAt
+    }
+    RESTAURANT {
+        string id PK
+        string ownerId FK
+        string slug UK
+        string name
+        string description
+        string previewImageUrl
+        string address
+        string city
+        string state
+        string country
+        Cuisine cuisine
+        decimal averageRating
+        int reviewCount
+    }
+    REVIEW {
+        string id PK
+        string restaurantId FK
+        string reviewerId FK
+        int rating
+        string comment
+    }
+```
+
+Four models only — there is no `Favorite`, `Notification`, or `Reservation`
+table yet (see [Features](/features) for the status of each). `Review` has a
+compound unique constraint on `(restaurantId, reviewerId)`, so the ER
+relation "Restaurant receives Reviews" is capped at one review per
+`(restaurant, reviewer)` pair rather than truly unbounded.

@@ -1,0 +1,28 @@
+---
+title: Project Goals
+description: What the project is optimizing for, and what it deliberately isn't.
+---
+
+# Project Goals
+
+- Build a full-stack application with production-grade fundamentals:
+  authentication, authorization, validation, and a documented data model —
+  not a CRUD demo with the hard parts skipped.
+- Keep the architecture as simple as the current requirements allow, and
+  document the specific trigger that would justify the next step in
+  complexity (see [Roadmap](/roadmap) and [Architecture](/architecture)).
+- Stay reproducible on free-tier infrastructure for as long as possible —
+  see [Cost Strategy](/infrastructure/cost-strategy) — so the project remains
+  something one person can run and maintain without a cloud bill.
+- Record engineering decisions and trade-offs as they're made, not
+  retroactively — see [ADR](/adr).
+
+## Explicit non-goals (for now)
+
+- **Microservices from day one.** The backend is a modular NestJS monolith.
+  Services are only extracted once a module's scaling, technology, or release
+  needs actually diverge from the rest of the system — see
+  [Why Not Microservices from Day One](/architecture#why-not-microservices-from-day-one).
+- **Building ahead of demand.** Redis, Go services, PostGIS, and AI features
+  are all designed on paper (see [Roadmap](/roadmap) and [ADR](/adr)) but not
+  implemented until the feature they'd support is actually being built.
