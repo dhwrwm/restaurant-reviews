@@ -2,6 +2,10 @@
 
 A restaurant review platform: reviewers browse, filter, and review restaurants; restaurant owners manage their own listings.
 
+Link - https://restaurant-reviews-web.vercel.app/
+
+Docs - https://restaurant-reviews-docs.vercel.app/
+
 ## Structure
 
 Turborepo + pnpm workspace.
