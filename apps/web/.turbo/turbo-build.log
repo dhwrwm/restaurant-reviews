@@ -1,27 +1,39 @@
 
-> web@0.1.0 build /Users/bazum/Test-projects/Dhwrwm-basumatary/apps/web
+> web@0.1.0 build /Users/bazum/Projects/restaurant-reviews/apps/web
 > next build
+
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of /Users/bazum/Projects/pnpm-lock.yaml as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * /Users/bazum/Projects/restaurant-reviews/pnpm-workspace.yaml
 
 ▲ Next.js 16.2.10 (Turbopack)
 - Environments: .env.local
 
   Creating an optimized production build ...
-✓ Compiled successfully in 4.4s
+✓ Compiled successfully in 8.3s
   Running TypeScript ...
-⚠ Minimum recommended TypeScript version is v5.1.0, older versions can potentially be incompatible with Next.js. Detected: 5.0.2
-Failed to type check.
+  Finished TypeScript in 13.5s ...
+  Collecting page data using 11 workers ...
+  Generating static pages using 11 workers (0/8) ...
+  Generating static pages using 11 workers (2/8) 
+  Generating static pages using 11 workers (4/8) 
+  Generating static pages using 11 workers (6/8) 
+✓ Generating static pages using 11 workers (8/8) in 3.1s
+  Finalizing page optimization ...
 
-./src/app/restaurant/[slug]/page.tsx:59:12
-Type error: 'RestaurantReviews' cannot be used as a JSX component.
-  Its return type 'Promise<Element>' is not a valid JSX element.
-    Type 'Promise<Element>' is missing the following properties from type 'ReactElement<any, any>': type, props, key
+Route (app)
+┌ ƒ /
+├ ƒ /_not-found
+├ ƒ /add-restaurant
+├ ƒ /login
+├ ƒ /my-restaurants
+├ ƒ /my-restaurants/[slug]/edit
+├ ƒ /register
+└ ƒ /restaurant/[slug]
 
-  [90m57 |[0m       <div className=[32m"mx-auto max-w-6xl mt-8"[0m>
-  [90m58 |[0m         <[33mSuspense[0m fallback={<[33mRestaurantReviewsSkeleton[0m />}>
-[31m[1m>[0m [90m59 |[0m           <[33mRestaurantReviews[0m slug={slug} />
-  [90m   |[0m            [31m[1m^[0m
-  [90m60 |[0m         </[33mSuspense[0m>
-  [90m61 |[0m       </div>
-  [90m62 |[0m     </div>
-Next.js build worker exited with code: 1 and signal: null
- ELIFECYCLE  Command failed with exit code 1.
+
+ƒ  (Dynamic)  server-rendered on demand
+
