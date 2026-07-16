@@ -66,6 +66,12 @@ export class AuthController {
     return this.authService.me(req.user.id);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Get('me/favourites-ids')
+  getFavouriteRestaurantIds(@Req() req: AuthenticatedRequest) {
+    return this.authService.getFavouriteRestaurantIds(req.user.id);
+  }
+
   @Post('refresh')
   async refresh(
     @Req() req: Request,

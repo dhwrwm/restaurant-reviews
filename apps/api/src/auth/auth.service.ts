@@ -67,6 +67,14 @@ export class AuthService {
     };
   }
 
+  async getFavouriteRestaurantIds(userId: string): Promise<string[]> {
+    const favourites = await this.prisma.client.favourite.findMany({
+      where: { userId },
+    });
+
+    return favourites.map((_fav) => _fav.restaurantId);
+  }
+
   async me(userId: string): Promise<SafeUser> {
     const user = await this.usersService.findById(userId);
 
